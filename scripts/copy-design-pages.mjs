@@ -15,7 +15,7 @@ const routes = [
   {
     path: '/', eyebrow: 'Unofficial Meccha Chameleon Hub', title: 'Paint Your Way to Victory', image: 'logo-wall.webp', accent: 'pink',
     description: 'A neon field guide for Steam players: find the official store page, learn the round flow, coordinate with friends, and improve hide-and-seek habits without account features or hosted files.',
-    intro: 'This R6-v3 build follows the latest stitch-export-v2 rhythm: a compact game-hub nav, immersive game-media hero, status cards, and bento guide entrances. All playable or community-like actions are mapped back to safe static guide routes.',
+    intro: 'This guide follows the latest dark neon hub rhythm: compact navigation, immersive game-media hero, status cards, and bento guide entrances. Community-like actions are mapped back to safe guide pages.',
     bullets: ['Steam access through the official listing only', 'Static guide pages instead of accounts, uploads, or matchmaking', 'Visible source, affiliation, and last-checked notes'],
     cards: [
       ['Steam Store', '/where-to-play/', 'Confirm the official listing, platform details, and current store information.'],
@@ -40,9 +40,9 @@ const routes = [
   },
   {
     path: '/join-friends/', eyebrow: 'Friend Setup', title: 'Join Friends Safely', image: 'hotel-lobby.webp', accent: 'pink',
-    description: 'Coordinate outside this static site, then use shared room details and the same Steam/region context. No login, chat, post board, or Steam ID collection is implemented here.',
+    description: 'Coordinate in your trusted chat or Steam friends list, then use shared room details and the same Steam/region context. This guide does not collect Steam IDs or provide chat, login, or post boards.',
     intro: 'Private friend sessions work best when everyone checks the same region, mode, map, and timing before the round starts. This page is a checklist, not a matchmaking feature.',
-    bullets: ['No account system on this P0 site', 'No room posts or user-generated listings', 'Use your trusted chat or Steam friends list'],
+    bullets: ['No account system on this guide', 'No room posts or user-generated listings', 'Use your trusted chat or Steam friends list'],
     cards: [['Room not showing?', '/server-not-showing/', 'Check the usual visibility causes.'], ['Beginner guide', '/beginner-guide/', 'Share the round basics with new players.'], ['Steam store', steamUrl, 'Confirm everyone is using the same Steam app.']],
   },
   {
@@ -69,15 +69,15 @@ const routes = [
   {
     path: '/faq/', eyebrow: 'FAQ', title: 'FAQ and Safety Notes', image: 'paint-room.webp', accent: 'pink',
     description: 'Quick answers about official access, affiliation, hosted files, friend setup, source notes, and what this guide does not do.',
-    intro: 'This P0 site is a static unofficial guide. It does not provide accounts, uploads, matchmaking, market features, comments, or game files.',
+    intro: 'This is an unofficial player guide. It does not provide accounts, uploads, matchmaking, market features, comments, or game files.',
     bullets: ['Unofficial and not affiliated', 'No downloads hosted or linked as mirrors', 'Last checked and source notes stay visible'],
     cards: [],
   },
   {
     path: '/privacy/', eyebrow: 'Privacy', title: 'Privacy Policy', image: 'green-room.webp', accent: 'cyan',
-    description: 'This static guide keeps privacy simple: no site accounts, no matchmaking profiles, no Steam ID collection, and no user uploads in the P0 build.',
+    description: 'This guide keeps privacy simple: no site accounts, no matchmaking profiles, no Steam ID collection, and no user uploads.',
     intro: 'If analytics are added later, they should be disclosed clearly and configured without collecting sensitive game-account data.',
-    bullets: ['No login in P0', 'No gameplay file uploads', 'Contact uses your email app via mailto'],
+    bullets: ['No login on this guide', 'No gameplay file uploads', 'Contact uses your email app via mailto'],
     cards: [],
   },
   {
@@ -124,7 +124,6 @@ function head(page) {
 <title>${esc(page.eyebrow)} - Meccha Chameleon Unofficial Guide</title>
 <meta name="description" content="${esc(page.description)}"><link rel="canonical" href="${canonical}">
 <meta property="og:title" content="${esc(page.title)}"><meta property="og:description" content="${esc(page.description)}"><meta property="og:url" content="${canonical}">
-<meta name="generator" content="Next.js static export + Cloudflare Workers Assets">
 <link href="https://fonts.googleapis.com/css2?family=Anybody:wght@400;700;900&family=JetBrains+Mono:wght@700&family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -137,10 +136,6 @@ body{background-color:#0D121A;background-image:radial-gradient(circle at 50% -20
 </head>`;
 }
 
-function mobileMenu() {
-  return `<div class="mc-mobile-menu" data-mobile-menu aria-hidden="true"><div class="mc-mobile-menu__panel"><a href="/where-to-play/">Steam Store</a><a href="/beginner-guide/">Missions</a><a href="/join-friends/">Friends</a><a href="/server-not-showing/">Fix Room</a><a href="/hider-guide/">Hider Guide</a><a href="/seeker-guide/">Seeker Guide</a><a href="/faq/">FAQ</a><a href="/contact/">Contact</a><button class="mc-mobile-menu__close" type="button" data-menu-close>×</button></div></div>`;
-}
-
 function cardList(items) {
   return items.map(([title, href, body], index) => `<a class="mc-card paint-splat-hover rounded-xl p-6 min-h-[184px] transition-transform hover:-translate-y-1" href="${href}"${href.startsWith('http') ? ' target="_blank" rel="noopener noreferrer"' : ''}><span class="font-label-caps text-label-caps text-tertiary">0${index + 1}</span><h3 class="mt-3 font-headline-md text-headline-md text-on-surface">${esc(title)}</h3><p class="mt-3 text-on-surface-variant leading-relaxed">${esc(body)}</p></a>`).join('\n');
 }
@@ -149,7 +144,7 @@ function statCards() {
   return `<section class="mc-stat-grid grid grid-cols-1 gap-gutter md:grid-cols-3">
   <article class="mc-card mc-stat rounded-xl p-6"><span class="font-label-caps text-label-caps text-on-surface-variant">Source mode</span><strong class="mt-2 block font-headline-lg text-headline-lg text-paint-yellow">${sourceMode}</strong><p class="mt-2 text-sm leading-relaxed text-on-surface-variant">No live sales, online-player, or market counters are shown unless independently verified.</p></article>
   <article class="mc-card mc-stat rounded-xl p-6"><span class="font-label-caps text-label-caps text-on-surface-variant">Source status</span><strong class="mt-2 block font-headline-lg text-headline-lg text-primary">Last checked</strong><p class="mt-2 text-sm leading-relaxed text-on-surface-variant">${lastChecked}. Store details should still be confirmed on Steam.</p></article>
-  <article class="mc-card mc-stat rounded-xl p-6"><span class="font-label-caps text-label-caps text-on-surface-variant">P0 boundary</span><strong class="mt-2 block font-headline-lg text-headline-lg text-paint-pink">Static guide</strong><p class="mt-2 text-sm leading-relaxed text-on-surface-variant">No login, uploads, market, comments, or matchmaking features.</p></article>
+  <article class="mc-card mc-stat rounded-xl p-6"><span class="font-label-caps text-label-caps text-on-surface-variant">Guide boundary</span><strong class="mt-2 block font-headline-lg text-headline-lg text-paint-pink">Guide only</strong><p class="mt-2 text-sm leading-relaxed text-on-surface-variant">No login, uploads, market, comments, or matchmaking features.</p></article>
 </section>`;
 }
 
@@ -166,12 +161,12 @@ function extraSection(page) {
     return `<section class="grid grid-cols-1 gap-gutter md:grid-cols-2">
       <article id="unofficial" class="mc-card rounded-xl p-6"><h2 class="font-headline-md text-headline-md text-primary mb-3">Is this official?</h2><p class="text-on-surface-variant">No. This is an unofficial player guide and is not affiliated with Steam, Valve, or the game developers.</p></article>
       <article id="downloads" class="mc-card rounded-xl p-6"><h2 class="font-headline-md text-headline-md text-primary mb-3">Can I get the game here?</h2><p class="text-on-surface-variant">No. This guide hosts no game files and does not link to mirrors. Use the official Steam listing.</p></article>
-      <article id="accounts" class="mc-card rounded-xl p-6"><h2 class="font-headline-md text-headline-md text-primary mb-3">Does this site have accounts?</h2><p class="text-on-surface-variant">No P0 account, post board, gallery upload, comments, market, or matchmaking database is implemented.</p></article>
+      <article id="accounts" class="mc-card rounded-xl p-6"><h2 class="font-headline-md text-headline-md text-primary mb-3">Does this site have accounts?</h2><p class="text-on-surface-variant">No account, post board, gallery upload, comments, market, or matchmaking database is provided.</p></article>
       <article class="mc-card rounded-xl p-6"><h2 class="font-headline-md text-headline-md text-primary mb-3">Where do facts come from?</h2><p class="text-on-surface-variant">Store access and game availability should be confirmed on Steam. Gameplay notes here are original and source-labeled; live sales or player counters are intentionally not shown.</p></article>
     </section>`;
   }
   if (page.path === '/privacy/') {
-    return `<section class="mc-legal mc-card rounded-xl p-8"><h2>No accounts in P0</h2><p>This static guide does not offer login, matchmaking profiles, comment accounts, or uploads.</p><h2>Contact form</h2><p>The contact form opens a mailto link in your email app. The static site does not store the message in a database.</p><h2>External links</h2><p>Steam and other external destinations have their own privacy practices. Confirm details there before sharing account information.</p></section>`;
+    return `<section class="mc-legal mc-card rounded-xl p-8"><h2>No accounts</h2><p>This guide does not offer login, matchmaking profiles, comment accounts, or uploads.</p><h2>Contact form</h2><p>The contact form opens a mailto link in your email app. This guide does not store the message.</p><h2>External links</h2><p>Steam and other external destinations have their own privacy practices. Confirm details there before sharing account information.</p></section>`;
   }
   if (page.path === '/terms/') {
     return `<section class="mc-legal mc-card rounded-xl p-8"><section id="disclaimer"><h2>Unofficial guide disclaimer</h2><p>This guide is not affiliated with Steam, Valve, or the game developers. Trademarks and game media belong to their respective owners.</p></section><section id="file-policy"><h2>File policy</h2><p>This site does not distribute game files, installers, mirrors, cheats, unauthorized copies, or browser copies. Use the official Steam listing for access.</p></section><section><h2>Information changes</h2><p>Game availability, price, platform details, balance, and server behavior can change. Always confirm current facts on official channels.</p></section></section>`;
@@ -183,9 +178,9 @@ function extraSection(page) {
     return `<section class="mc-bento grid grid-cols-1 gap-gutter md:grid-cols-3" aria-label="Hub access">
       <a class="mc-card paint-splat-hover rounded-xl p-6 min-h-[168px]" href="/where-to-play/"><span class="material-symbols-outlined text-primary">shopping_bag</span><h3 class="mt-10 font-headline-md text-headline-md text-on-surface">Steam Route</h3><p class="text-on-surface-variant">Official store access only.</p></a>
       <a class="mc-card paint-splat-hover rounded-xl p-6 min-h-[168px]" href="/beginner-guide/"><span class="material-symbols-outlined text-paint-yellow">menu_book</span><h3 class="mt-10 font-headline-md text-headline-md text-on-surface">Guide Center</h3><p class="text-on-surface-variant">Beginner, Hider, and Seeker paths.</p></a>
-      <a class="mc-card paint-splat-hover rounded-xl p-6 min-h-[168px]" href="/join-friends/"><span class="material-symbols-outlined text-paint-pink">group</span><h3 class="mt-10 font-headline-md text-headline-md text-on-surface">Friend Checklist</h3><p class="text-on-surface-variant">Coordinate outside this static site.</p></a>
+      <a class="mc-card paint-splat-hover rounded-xl p-6 min-h-[168px]" href="/join-friends/"><span class="material-symbols-outlined text-paint-pink">group</span><h3 class="mt-10 font-headline-md text-headline-md text-on-surface">Friend Checklist</h3><p class="text-on-surface-variant">Coordinate in trusted channels.</p></a>
     </section>
-    <section class="mc-immersive-panel"><div><p class="mc-kicker">Gameplay reference</p><h2>Hide-and-seek panels, not fake live modules</h2><p>The Stitch source uses neon cards, compact hub panels, and game screenshots. This implementation keeps that arcade rhythm while replacing community boards, upload showcases, shop-like panels, account entrypoints, and live-stat prototypes with safe P0 guide routes.</p><div class="mc-media-source mt-5">Media source: local Steam/game assets under <code>/media/game/*.webp</code>. This is an unofficial fan guide with no hosted game files.</div></div><div class="mc-shot-grid"><figure><img src="/media/game/yellow-hall.webp" alt="Yellow room gameplay reference"><figcaption>Search lanes</figcaption></figure><figure><img src="/media/game/brick-hide.webp" alt="Brick hide gameplay reference"><figcaption>Blend checks</figcaption></figure><figure><img src="/media/game/farm-round.webp" alt="Farm round gameplay reference"><figcaption>Round flow</figcaption></figure><figure><img src="/media/game/hotel-lobby.webp" alt="Hotel lobby gameplay reference"><figcaption>Friend setup</figcaption></figure></div></section>
+    <section class="mc-immersive-panel"><div><p class="mc-kicker">Gameplay reference</p><h2>Hide-and-seek panels, not live counters</h2><p>The design source uses neon cards, compact hub panels, and game screenshots. This implementation keeps that arcade rhythm while replacing community boards, upload showcases, shop-like panels, account entrypoints, and live-stat prototypes with safe guide routes.</p><div class="mc-media-source mt-5">Media source: local Steam/game assets under <code>/media/game/*.webp</code>. This is an unofficial fan guide with no hosted game files.</div></div><div class="mc-shot-grid"><figure><img src="/media/game/yellow-hall.webp" alt="Yellow room gameplay reference"><figcaption>Search lanes</figcaption></figure><figure><img src="/media/game/brick-hide.webp" alt="Brick hide gameplay reference"><figcaption>Blend checks</figcaption></figure><figure><img src="/media/game/farm-round.webp" alt="Farm round gameplay reference"><figcaption>Round flow</figcaption></figure><figure><img src="/media/game/hotel-lobby.webp" alt="Hotel lobby gameplay reference"><figcaption>Friend setup</figcaption></figure></div></section>
     <section class="mc-video-panel"><div><p class="mc-kicker">Latest intel</p><h2>Stable guide updates only</h2><p>Instead of copying patch-note claims or showing unverified counters, pages link to durable player tasks: where to play, how rounds work, friend setup, and troubleshooting.</p></div><div class="mc-video-cards"><article><span>01</span><strong>Official access</strong><p>Open Steam and verify current details there.</p></article><article><span>02</span><strong>Room routine</strong><p>Check region, version, privacy, and host state.</p></article><article><span>03</span><strong>Role discipline</strong><p>Use Hider and Seeker checklists during rounds.</p></article></div></section>`;
   }
   const guideImage = page.path.includes('seeker') ? 'meat-locker.webp' : page.path.includes('hider') ? 'green-room.webp' : page.path.includes('join') ? 'paint-room.webp' : 'laundry-hall.webp';
@@ -219,4 +214,4 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://w
 writeFileSync(join(outDir, 'sitemap.xml'), sitemap);
 writeFileSync(join(outDir, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${siteUrl}/sitemap.xml\n`);
 for (const starter of ['next.svg', 'vercel.svg', 'file.svg', 'globe.svg', 'window.svg']) rmSync(join(outDir, starter), { force: true });
-console.log(`Copied ${routes.length} stitch-export-v2 inspired P0 pages into ${outDir}`);
+console.log(`Copied ${routes.length} stitch-export-v2 inspired guide pages into ${outDir}`);
