@@ -39,6 +39,7 @@ function addHowToPlayContent(html, file) {
                         Learn the Round Flow
                     </h2>
 <p class="font-body-md text-body-md text-on-surface-variant mb-4">Meccha Chameleon is round-based: players enter a room, receive a role, use the setup window, then race the timer. Hiders win if at least one player survives until time runs out; Seekers win by finding every Hider before the clock expires.</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4">For faster improvement, think in three skills: painting creates the color match, camouflage chooses the place and pose, and pattern recognition helps Seekers notice what looks slightly wrong.</p>
 <ol class="grid grid-cols-1 sm:grid-cols-2 gap-3 font-body-sm text-body-sm text-on-surface-variant list-decimal list-inside">
 <li class="bg-surface-container/50 rounded-lg p-3 border border-primary/20">Join or create a room.</li>
 <li class="bg-surface-container/50 rounded-lg p-3 border border-primary/20">Wait for enough players.</li>
@@ -103,6 +104,28 @@ function addHowToPlayContent(html, file) {
 <p class="text-on-surface-variant">Stay still unless you already know the escape route. Most losses happen because a Hider moves before the Seeker is fully committed elsewhere.</p>
 </div>
 </section>
+<!-- Painting and Camouflage Deep Dive -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-element-gap md:gap-8">
+<div class="bubbly-card rounded-xl p-8 md:col-span-7">
+<h3 class="font-headline-md text-headline-md text-primary-container mb-3">Painting Workflow</h3>
+<p class="text-on-surface-variant mb-4">Build the disguise in a repeatable order: choose the surface, sample the main color, add darker tones where the background is in shadow, add lighter tones where the light hits, then copy only the real patterns behind you.</p>
+<ul class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-on-surface-variant text-sm">
+<li class="bg-surface-container/50 rounded-lg p-3 border border-primary-container/20">Hue alone is not enough; brightness usually gives bad disguises away.</li>
+<li class="bg-surface-container/50 rounded-lg p-3 border border-primary-container/20">Use matte or shiny settings only when the surface around you matches.</li>
+<li class="bg-surface-container/50 rounded-lg p-3 border border-primary-container/20">Check head, shoulders, elbows, hands, knees, feet, and sharp color borders.</li>
+<li class="bg-surface-container/50 rounded-lg p-3 border border-primary-container/20">A simple match in the right place beats a detailed paint job on a bad background.</li>
+</ul>
+</div>
+<div class="bubbly-card rounded-xl p-8 md:col-span-5">
+<h3 class="font-headline-md text-headline-md text-tertiary mb-3">Hiding Spot Test</h3>
+<p class="text-on-surface-variant mb-4">Before the Seekers release, ask whether your shape belongs there, whether the main path can see your outline, and whether you still have an escape route.</p>
+<ul class="space-y-2 text-on-surface-variant text-sm">
+<li>• Crouched poses fit shelves, boxes, furniture, and floor-level details.</li>
+<li>• Standing poses fit pillars, panels, curtains, and vertical decorations.</li>
+<li>• Rotate the camera and judge the spot from a Seeker’s entrance angle.</li>
+</ul>
+</div>
+</section>
 ${marker}`;
     html = html.replace(marker, expanded);
   }
@@ -128,8 +151,95 @@ ${marker}`;
 </div>
 </div>
 </section>
+<!-- Movement and Detection Methods -->
+<section class="w-full glass-card rounded-3xl p-stack-md mt-stack-md glow-teal">
+<h2 class="font-headline-md text-headline-md text-secondary text-center mb-stack-sm">Movement and detection routine</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter text-left">
+<div class="bg-surface-container/50 rounded-3xl p-6 border border-secondary/20">
+<h3 class="font-label-lg text-label-lg text-on-surface mb-2">Move with a route</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3">Use an S-curve, grid, or zone-by-zone path so you do not miss corners or repeat the same hallway. Check high ledges and low furniture because many Hiders rely on your camera staying at one height.</p>
+<ul class="font-body-sm text-body-sm text-on-surface-variant space-y-2">
+<li>• Scan from the room entrance first.</li>
+<li>• Clear walls and corners before clutter.</li>
+<li>• Look up, then look down, before leaving the zone.</li>
+</ul>
+</div>
+<div class="bg-surface-container/50 rounded-3xl p-6 border border-primary/20">
+<h3 class="font-label-lg text-label-lg text-on-surface mb-2">Detect in layers</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3">Make a quick first pass for obvious movement, unfinished paint, and strange poses. Use the second pass for smaller clues like broken patterns, bad light direction, and outlines near edges.</p>
+<ul class="font-body-sm text-body-sm text-on-surface-variant space-y-2">
+<li>• Give each zone a time limit.</li>
+<li>• Call out checked areas if multiple Seekers are playing.</li>
+<li>• Use end-of-round reveals to remember common hiding spots.</li>
+</ul>
+</div>
+</div>
+</section>
 ${marker}`;
     html = html.replace(marker, expanded);
+  }
+
+  if (file === 'beginner-guide-desktop.html' && !html.includes('painting creates the color match')) {
+    html = html.replace(
+      '<p class="font-body-md text-body-md text-on-surface-variant mb-4">Meccha Chameleon is round-based: players enter a room, receive a role, use the setup window, then race the timer. Hiders win if at least one player survives until time runs out; Seekers win by finding every Hider before the clock expires.</p>',
+      '<p class="font-body-md text-body-md text-on-surface-variant mb-4">Meccha Chameleon is round-based: players enter a room, receive a role, use the setup window, then race the timer. Hiders win if at least one player survives until time runs out; Seekers win by finding every Hider before the clock expires.</p>\n<p class="font-body-sm text-body-sm text-on-surface-variant mb-4">For faster improvement, think in three skills: painting creates the color match, camouflage chooses the place and pose, and pattern recognition helps Seekers notice what looks slightly wrong.</p>',
+    );
+  }
+
+  if (file === 'hider-guide-desktop.html' && !html.includes('Painting Workflow')) {
+    const marker = `<!-- CTA Section -->\n<section class="mt-8 mb-4 text-center">`;
+    html = html.replace(marker, `<!-- Painting and Camouflage Deep Dive -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-element-gap md:gap-8">
+<div class="bubbly-card rounded-xl p-8 md:col-span-7">
+<h3 class="font-headline-md text-headline-md text-primary-container mb-3">Painting Workflow</h3>
+<p class="text-on-surface-variant mb-4">Build the disguise in a repeatable order: choose the surface, sample the main color, add darker tones where the background is in shadow, add lighter tones where the light hits, then copy only the real patterns behind you.</p>
+<ul class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-on-surface-variant text-sm">
+<li class="bg-surface-container/50 rounded-lg p-3 border border-primary-container/20">Hue alone is not enough; brightness usually gives bad disguises away.</li>
+<li class="bg-surface-container/50 rounded-lg p-3 border border-primary-container/20">Use matte or shiny settings only when the surface around you matches.</li>
+<li class="bg-surface-container/50 rounded-lg p-3 border border-primary-container/20">Check head, shoulders, elbows, hands, knees, feet, and sharp color borders.</li>
+<li class="bg-surface-container/50 rounded-lg p-3 border border-primary-container/20">A simple match in the right place beats a detailed paint job on a bad background.</li>
+</ul>
+</div>
+<div class="bubbly-card rounded-xl p-8 md:col-span-5">
+<h3 class="font-headline-md text-headline-md text-tertiary mb-3">Hiding Spot Test</h3>
+<p class="text-on-surface-variant mb-4">Before the Seekers release, ask whether your shape belongs there, whether the main path can see your outline, and whether you still have an escape route.</p>
+<ul class="space-y-2 text-on-surface-variant text-sm">
+<li>• Crouched poses fit shelves, boxes, furniture, and floor-level details.</li>
+<li>• Standing poses fit pillars, panels, curtains, and vertical decorations.</li>
+<li>• Rotate the camera and judge the spot from a Seeker’s entrance angle.</li>
+</ul>
+</div>
+</section>
+${marker}`);
+  }
+
+  if (file === 'seeker-guide-desktop.html' && !html.includes('Movement and detection routine')) {
+    const marker = `<!-- Disclaimer -->\n<div class="mt-stack-lg bg-surface-container-high rounded-full px-6 py-3 border border-surface-variant">`;
+    html = html.replace(marker, `<!-- Movement and Detection Methods -->
+<section class="w-full glass-card rounded-3xl p-stack-md mt-stack-md glow-teal">
+<h2 class="font-headline-md text-headline-md text-secondary text-center mb-stack-sm">Movement and detection routine</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter text-left">
+<div class="bg-surface-container/50 rounded-3xl p-6 border border-secondary/20">
+<h3 class="font-label-lg text-label-lg text-on-surface mb-2">Move with a route</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3">Use an S-curve, grid, or zone-by-zone path so you do not miss corners or repeat the same hallway. Check high ledges and low furniture because many Hiders rely on your camera staying at one height.</p>
+<ul class="font-body-sm text-body-sm text-on-surface-variant space-y-2">
+<li>• Scan from the room entrance first.</li>
+<li>• Clear walls and corners before clutter.</li>
+<li>• Look up, then look down, before leaving the zone.</li>
+</ul>
+</div>
+<div class="bg-surface-container/50 rounded-3xl p-6 border border-primary/20">
+<h3 class="font-label-lg text-label-lg text-on-surface mb-2">Detect in layers</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3">Make a quick first pass for obvious movement, unfinished paint, and strange poses. Use the second pass for smaller clues like broken patterns, bad light direction, and outlines near edges.</p>
+<ul class="font-body-sm text-body-sm text-on-surface-variant space-y-2">
+<li>• Give each zone a time limit.</li>
+<li>• Call out checked areas if multiple Seekers are playing.</li>
+<li>• Use end-of-round reveals to remember common hiding spots.</li>
+</ul>
+</div>
+</div>
+</section>
+${marker}`);
   }
 
   return html;
