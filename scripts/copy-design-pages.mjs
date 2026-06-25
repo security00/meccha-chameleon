@@ -297,6 +297,36 @@ Official Steam news has mentioned updates such as the Cube character, individual
   return html;
 }
 
+function replaceNonGameImages(html, file) {
+  const routeImages = {
+    'homepage-desktop.html': '/media/game/logo-wall.webp',
+    'where-to-play-desktop.html': '/media/game/promo-poster.webp',
+    'beginner-guide-desktop.html': '/media/game/farm-round.webp',
+    'join-friends-desktop.html': '/media/game/hotel-lobby.webp',
+    'server-not-showing-desktop.html': '/media/game/blue-room.webp',
+    'hider-guide-desktop.html': '/media/game/brick-hide.webp',
+    'seeker-guide-desktop.html': '/media/game/yellow-hall.webp',
+    'faq-desktop.html': '/media/game/paint-room.webp',
+  };
+  const replacement = routeImages[file] || '/media/game/logo-wall.webp';
+  const replacements = {
+    'where-to-play-desktop.html': ['/media/game/promo-poster.webp', '/media/game/hotel-lobby.webp', '/media/game/paint-room.webp'],
+  };
+  let imageIndex = 0;
+  const nextReplacement = () => {
+    const list = replacements[file];
+    if (!list) return replacement;
+    const value = list[Math.min(imageIndex, list.length - 1)];
+    imageIndex += 1;
+    return value;
+  };
+
+  return html
+    .replace(/src="https:\/\/(?:lh3\.googleusercontent\.com|www\.gstatic\.com\/labs-code\/stitch)\/[^"]+"/g, () => `src="${nextReplacement()}"`)
+    .replace(/url\(['"]https:\/\/lh3\.googleusercontent\.com\/[^"]+?['"]\)/g, () => `url('${replacement}')`)
+    .replace(/data-alt="[^"]*(?:illustration|mascot|placeholder|cyber|tactical HUD|server room|radar)[^"]*"/gi, 'data-alt="Meccha Chameleon supplied game screenshot"');
+}
+
 function addImmersiveMedia(html, file) {
   if (file !== 'homepage-desktop.html') return html;
 
@@ -457,7 +487,7 @@ function patchHtml(html, file) {
   <span>Source note: Steam store/news pages and public player-facing materials; gameplay advice is original and source-labeled.</span>
   <span>Last checked: June 25, 2026.</span>
 </section>`;
-  return addGuideMedia(addImmersiveMedia(replaceStaticPlaceholderLinks(addSteamUpdateContent(addHowToPlayContent(html, file), file)), file), file)
+  return addGuideMedia(addImmersiveMedia(replaceStaticPlaceholderLinks(addSteamUpdateContent(addHowToPlayContent(replaceNonGameImages(html, file), file), file)), file), file)
     .replace(/<button\b[^>]*>\s*(?:LOGIN|Login|Sign In|SIGN IN|Log In)\s*<\/button>/g, '')
     .replace(/\$5\.99/g, 'Steam listing')
     .replace(/The ultimate guide to the Steam listing Steam party game\. Paint yourself to blend in, outsmart your friends, and master the art of the hide!/g, 'An unofficial Steam player guide for safe store access, friend setup, beginner basics, and practical hide-and-seek habits.')
