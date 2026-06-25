@@ -1,0 +1,13 @@
+name = "meccha-chameleon"
+main = "src/worker.ts"
+compatibility_date = "2026-06-15"
+workers_dev = true
+
+[assets]
+directory = "./out"
+binding = "ASSETS"
+not_found_handling = "none"
+run_worker_first = true
+
+[observability]
+enabled = true

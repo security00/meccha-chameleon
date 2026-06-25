@@ -1,0 +1,29 @@
+{
+  "name": "meccha-chameleon",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "next:build": "next build",
+    "build": "next build && node scripts/copy-design-pages.mjs",
+    "start": "next start",
+    "lint": "eslint",
+    "cf:dry-run": "npm run build && wrangler deploy --dry-run",
+    "deploy:workers": "npm run build && wrangler deploy"
+  },
+  "dependencies": {
+    "next": "16.2.9",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.9",
+    "playwright": "^1.61.1",
+    "typescript": "^5",
+    "wrangler": "^4.104.0"
+  }
+}
