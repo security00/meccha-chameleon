@@ -24,9 +24,11 @@ const routes = [
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://meccha-chameleon.potter-faa.workers.dev';
 
 function patchHtml(html) {
+  const interactionAssets = '<link rel="stylesheet" href="/app-interactions.css"/><script defer src="/app-interactions.js"></script>';
   return html
+    .replace(/<button\b[^>]*>\s*(?:LOGIN|Login|Sign In|SIGN IN|Log In)\s*<\/button>/g, '')
     .replace(/<meta charset="utf-8"\/>/, '<meta charset="utf-8"/><meta name="generator" content="Next.js static export + Cloudflare Workers Assets"/>')
-    .replaceAll('href="/"', 'href="/"')
+    .replace(/<\/head>/, `${interactionAssets}</head>`)
     .replace(/<\/body>/, '<footer style="position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden">Unofficial guide. Not affiliated with Steam or developers.</footer></body>');
 }
 
@@ -39,6 +41,10 @@ for (const [route, file] of routes) {
 
 for (const asset of ['favicon.ico', 'apple-touch-icon.png', 'logo.png', 'logo.svg']) {
   copyFileSync(join(designDir, asset), join(outDir, asset));
+}
+
+for (const asset of ['app-interactions.js', 'app-interactions.css']) {
+  copyFileSync(join(root, 'src', asset), join(outDir, asset));
 }
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${routes.map(([route]) => `  <url><loc>${siteUrl}${route}</loc></url>`).join('\n')}\n</urlset>\n`;
