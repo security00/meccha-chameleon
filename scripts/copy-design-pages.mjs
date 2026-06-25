@@ -21,11 +21,123 @@ const routes = [
   ['/contact/', 'contact-desktop.html'],
 ];
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://meccha-chameleon.potter-faa.workers.dev';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://meccha-chameleon.co';
 
-function patchHtml(html) {
+function addHowToPlayContent(html, file) {
+  if (file === 'beginner-guide-desktop.html' && !html.includes('Learn the Round Flow')) {
+    const oldSection = `<!-- Step 4: Have Fun -->
+<section class="glass-panel rounded-xl p-8 bg-gradient-to-br from-primary-container/20 to-secondary-container/20 border-primary/30 text-center relative overflow-hidden">
+<span class="material-symbols-outlined text-6xl text-primary mb-4" style="font-variation-settings: 'FILL' 1;">group</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">Have fun with friends!</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Grab your squad and dive into the colorful chaos.</p>
+</section>`;
+    const expandedSection = `<!-- Step 4: Round Flow -->
+<section class="glass-panel rounded-xl p-8 glow-primary relative overflow-hidden group hover:-translate-y-1 transition-transform duration-300">
+<div class="absolute top-[-20px] right-[-20px] w-32 h-32 bg-primary/20 rounded-full blur-2xl group-hover:bg-primary/30 transition-colors"></div>
+<h2 class="font-headline-md text-headline-md text-primary-fixed-dim mb-4 flex items-center gap-3">
+<span class="bg-primary text-on-primary w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg">4</span>
+                        Learn the Round Flow
+                    </h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">Meccha Chameleon is round-based: players enter a room, receive a role, use the setup window, then race the timer. Hiders win if at least one player survives until time runs out; Seekers win by finding every Hider before the clock expires.</p>
+<ol class="grid grid-cols-1 sm:grid-cols-2 gap-3 font-body-sm text-body-sm text-on-surface-variant list-decimal list-inside">
+<li class="bg-surface-container/50 rounded-lg p-3 border border-primary/20">Join or create a room.</li>
+<li class="bg-surface-container/50 rounded-lg p-3 border border-primary/20">Wait for enough players.</li>
+<li class="bg-surface-container/50 rounded-lg p-3 border border-primary/20">Check whether you are Hider or Seeker.</li>
+<li class="bg-surface-container/50 rounded-lg p-3 border border-primary/20">Use prep time, then play until the timer ends.</li>
+</ol>
+</section>
+<!-- Step 5: Hider Details -->
+<section class="glass-panel rounded-xl p-8 glow-secondary relative overflow-hidden group hover:-translate-y-1 transition-transform duration-300">
+<div class="absolute top-[-20px] right-[-20px] w-32 h-32 bg-secondary/20 rounded-full blur-2xl group-hover:bg-secondary/30 transition-colors"></div>
+<h2 class="font-headline-md text-headline-md text-secondary mb-4 flex items-center gap-3">
+<span class="bg-secondary text-on-secondary w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg">5</span>
+                        Hider Checklist
+                    </h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">Choose the hiding spot before painting. Start with the main color, adjust brightness to match the light, then add only the small details that help your outline disappear.</p>
+<ul class="grid grid-cols-1 sm:grid-cols-2 gap-3 font-body-sm text-body-sm text-on-surface-variant">
+<li class="bg-surface-container/50 rounded-lg p-3 border border-secondary/20">Use busy backgrounds, corners, shadows, shelves, and object clusters.</li>
+<li class="bg-surface-container/50 rounded-lg p-3 border border-secondary/20">Pick a pose that looks natural in that exact location.</li>
+<li class="bg-surface-container/50 rounded-lg p-3 border border-secondary/20">Check whether your silhouette still looks player-shaped.</li>
+<li class="bg-surface-container/50 rounded-lg p-3 border border-secondary/20">Move only when a safe escape route is obvious.</li>
+</ul>
+</section>
+<!-- Step 6: Seeker Details -->
+<section class="glass-panel rounded-xl p-8 glow-tertiary relative overflow-hidden group hover:-translate-y-1 transition-transform duration-300">
+<div class="absolute top-[-20px] right-[-20px] w-32 h-32 bg-tertiary/20 rounded-full blur-2xl group-hover:bg-tertiary/30 transition-colors"></div>
+<h2 class="font-headline-md text-headline-md text-tertiary mb-4 flex items-center gap-3">
+<span class="bg-tertiary text-on-tertiary w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg">6</span>
+                        Seeker Search Plan
+                    </h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">Do not run randomly. Split the map into zones, scan one area at a time, and look for the details that break the scene: wrong brightness, broken patterns, odd outlines, tiny movement, or body parts near edges.</p>
+<ul class="grid grid-cols-1 sm:grid-cols-2 gap-3 font-body-sm text-body-sm text-on-surface-variant">
+<li class="bg-surface-container/50 rounded-lg p-3 border border-tertiary/20">Search corners, floors, walls, shelves, and dark areas first.</li>
+<li class="bg-surface-container/50 rounded-lg p-3 border border-tertiary/20">Cover different zones when multiple Seekers are playing.</li>
+<li class="bg-surface-container/50 rounded-lg p-3 border border-tertiary/20">Return to suspicious spots instead of wasting the whole timer there.</li>
+<li class="bg-surface-container/50 rounded-lg p-3 border border-tertiary/20">Remember where players were found for the next round.</li>
+</ul>
+</section>
+<!-- Step 7: Have Fun -->
+<section class="glass-panel rounded-xl p-8 bg-gradient-to-br from-primary-container/20 to-secondary-container/20 border-primary/30 text-center relative overflow-hidden">
+<span class="material-symbols-outlined text-6xl text-primary mb-4" style="font-variation-settings: 'FILL' 1;">group</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">Have fun with friends!</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Private rooms work best for friend groups: create a room, share the room details, use the same region or server setting, and start with Normal mode until everyone understands the hide-and-seek rhythm.</p>
+</section>`;
+    html = html.replace(oldSection, expandedSection);
+  }
+
+  if (file === 'hider-guide-desktop.html' && !html.includes('Before You Paint')) {
+    const marker = `<!-- CTA Section -->
+<section class="mt-8 mb-4 text-center">`;
+    const expanded = `<!-- Practical Hider Routine -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-element-gap md:gap-8">
+<div class="bubbly-card rounded-xl p-8 md:col-span-1">
+<h3 class="font-headline-md text-headline-md text-secondary-fixed mb-3">Before You Paint</h3>
+<p class="text-on-surface-variant">Pick the location first. A perfect color on a bad spot still looks suspicious, especially on plain walls with clean lighting.</p>
+</div>
+<div class="bubbly-card rounded-xl p-8 md:col-span-1">
+<h3 class="font-headline-md text-headline-md text-primary-container mb-3">During Setup</h3>
+<p class="text-on-surface-variant">Match the dominant color, then tune brightness and copy only the details that matter. Too many random shapes make your body easier to read.</p>
+</div>
+<div class="bubbly-card rounded-xl p-8 md:col-span-1">
+<h3 class="font-headline-md text-headline-md text-tertiary mb-3">When Seekers Arrive</h3>
+<p class="text-on-surface-variant">Stay still unless you already know the escape route. Most losses happen because a Hider moves before the Seeker is fully committed elsewhere.</p>
+</div>
+</section>
+${marker}`;
+    html = html.replace(marker, expanded);
+  }
+
+  if (file === 'seeker-guide-desktop.html' && !html.includes('Search like a team, not a swarm')) {
+    const marker = `<!-- Disclaimer -->
+<div class="mt-stack-lg bg-surface-container-high rounded-full px-6 py-3 border border-surface-variant">`;
+    const expanded = `<!-- Search Discipline -->
+<section class="w-full glass-card rounded-3xl p-stack-md mt-stack-md glow-yellow">
+<h2 class="font-headline-md text-headline-md text-tertiary text-center mb-stack-sm">Search like a team, not a swarm</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter text-left">
+<div class="bg-surface-container/50 rounded-3xl p-6 border border-tertiary/20">
+<h3 class="font-label-lg text-label-lg text-on-surface mb-2">Divide the map</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Start with corners, walls, floors, shelves, object clusters, and shadowed zones. Move section by section instead of chasing every hunch.</p>
+</div>
+<div class="bg-surface-container/50 rounded-3xl p-6 border border-secondary/20">
+<h3 class="font-label-lg text-label-lg text-on-surface mb-2">Read the scene</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Wrong brightness, broken patterns, odd silhouettes, and tiny movement are stronger clues than color alone.</p>
+</div>
+<div class="bg-surface-container/50 rounded-3xl p-6 border border-primary/20">
+<h3 class="font-label-lg text-label-lg text-on-surface mb-2">Use the timer</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Do not spend the whole round on one maybe. Mark it mentally, clear another zone, then return if time allows.</p>
+</div>
+</div>
+</section>
+${marker}`;
+    html = html.replace(marker, expanded);
+  }
+
+  return html;
+}
+
+function patchHtml(html, file) {
   const interactionAssets = '<link rel="stylesheet" href="/app-interactions.css"/><script defer src="/app-interactions.js"></script>';
-  return html
+  return addHowToPlayContent(html, file)
     .replace(/<button\b[^>]*>\s*(?:LOGIN|Login|Sign In|SIGN IN|Log In)\s*<\/button>/g, '')
     .replace(/©\s*2024/g, '© 2026')
     .replace(/©2024/g, '© 2026')
@@ -37,7 +149,7 @@ function patchHtml(html) {
 }
 
 for (const [route, file] of routes) {
-  const html = patchHtml(readFileSync(join(designDir, file), 'utf8'));
+  const html = patchHtml(readFileSync(join(designDir, file), 'utf8'), file);
   const targetDir = route === '/' ? outDir : join(outDir, route);
   mkdirSync(targetDir, { recursive: true });
   writeFileSync(join(targetDir, 'index.html'), html);
