@@ -27,6 +27,10 @@ function patchHtml(html) {
   const interactionAssets = '<link rel="stylesheet" href="/app-interactions.css"/><script defer src="/app-interactions.js"></script>';
   return html
     .replace(/<button\b[^>]*>\s*(?:LOGIN|Login|Sign In|SIGN IN|Log In)\s*<\/button>/g, '')
+    .replace(/©\s*2024/g, '© 2026')
+    .replace(/©2024/g, '© 2026')
+    .replace(/Last Updated:\s*October 2024/g, 'Last Updated: June 25, 2026')
+    .replace(/Last updated:\s*October 24, 2024/g, 'Last updated: June 25, 2026')
     .replace(/<meta charset="utf-8"\/>/, '<meta charset="utf-8"/><meta name="generator" content="Next.js static export + Cloudflare Workers Assets"/>')
     .replace(/<\/head>/, `${interactionAssets}</head>`)
     .replace(/<\/body>/, '<footer style="position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden">Unofficial guide. Not affiliated with Steam or developers.</footer></body>');
