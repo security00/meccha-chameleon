@@ -46,7 +46,7 @@ console.log('interaction mobile menu -> beginner-guide ok');
 
 await interactionPage.setViewportSize({ width: 1280, height: 900 });
 await interactionPage.goto(base + '/', { waitUntil: 'networkidle' });
-await interactionPage.locator('button:has-text("How to Play")').filter({ visible: true }).first().click();
+await interactionPage.locator('a:has-text("How to Play"), button:has-text("How to Play")').filter({ visible: true }).first().click();
 await interactionPage.waitForURL('**/beginner-guide/', { timeout: 10000 });
 console.log('interaction CTA How to Play -> beginner-guide ok');
 
