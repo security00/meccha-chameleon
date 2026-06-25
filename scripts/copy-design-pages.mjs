@@ -245,9 +245,61 @@ ${marker}`);
   return html;
 }
 
+function addSteamUpdateContent(html, file) {
+  if (file === 'beginner-guide-desktop.html' && !html.includes('Patch-aware match setup')) {
+    html = html.replace(
+      '<li class="bg-surface-container/50 rounded-lg p-3 border border-primary/20">Check whether you are Hider or Seeker.</li>',
+      '<li class="bg-surface-container/50 rounded-lg p-3 border border-primary/20">Check whether you are Hider or Seeker.</li>\n<li class="bg-surface-container/50 rounded-lg p-3 border border-primary/20">Confirm the selected map before everyone readies up.</li>',
+    );
+    html = html.replace(
+      '</ol>\n</section>\n<!-- Step 5: Hider Details -->',
+      '</ol>\n<div class="mt-4 bg-surface-container/50 rounded-lg p-4 border border-secondary/20">\n<h3 class="font-label-bold text-label-bold text-on-surface mb-2">Patch-aware match setup</h3>\n<p class="font-body-sm text-body-sm text-on-surface-variant">Recent Steam update notes mention individual character selection, map confirmation before the match starts, new emotes, and the Cube character. Use the lobby time to confirm the map, choose a readable character, and make sure everyone understands the selected mode.</p>\n</div>\n</section>\n<!-- Step 5: Hider Details -->',
+    );
+  }
+
+  if (file === 'hider-guide-desktop.html' && !html.includes('Size and pose options')) {
+    html = html.replace(
+      '<li class="bg-surface-container/50 rounded-lg p-3 border border-primary-container/20">A simple match in the right place beats a detailed paint job on a bad background.</li>',
+      '<li class="bg-surface-container/50 rounded-lg p-3 border border-primary-container/20">A simple match in the right place beats a detailed paint job on a bad background.</li>\n<li class="bg-surface-container/50 rounded-lg p-3 border border-primary-container/20">Size and pose options matter: if a lobby allows Hider size changes, pick a size that fits the object cluster instead of chasing the smallest possible body.</li>',
+    );
+  }
+
+  if (file === 'seeker-guide-desktop.html' && !html.includes('Hunter timing note')) {
+    html = html.replace(
+      '<li>• Give each zone a time limit.</li>',
+      '<li>• Give each zone a time limit.</li>\n<li>• Hunter timing note: Steam update notes mention the shotgun firing delay changing from 1.5s to 2.0s, so confirm before committing to a shot.</li>',
+    );
+  }
+
+  if (file === 'faq-desktop.html' && !html.includes('Steam Update Notes')) {
+    html = html.replace(
+      '<!-- Q5 -->',
+      `<!-- Steam Update Notes -->
+<div class="glass-card rounded-xl p-md glow-card-hover transition-all duration-300 group border-l-4 border-l-tertiary md:col-span-2 flex flex-col h-full">
+<div class="flex items-center gap-sm mb-sm">
+<span class="material-symbols-outlined text-tertiary text-2xl group-hover:scale-110 transition-transform">new_releases</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Steam Update Notes</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant flex-grow mb-3">
+Official Steam news has mentioned updates such as the Cube character, individual character selection, map confirmation before starting, new emotes, the Osaka map, report tools, Hider size options, and Hunter shotgun timing changes. We fold useful gameplay implications into this guide, but players should still check Steam for the newest patch details.
+</p>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 font-body-sm text-body-sm text-on-surface-variant">
+<div class="bg-surface-container/50 rounded-lg p-3 border border-primary/20">Before each match: confirm map, mode, character, and role.</div>
+<div class="bg-surface-container/50 rounded-lg p-3 border border-secondary/20">For fair play: avoid out-of-bounds gaps and use report tools when needed.</div>
+<div class="bg-surface-container/50 rounded-lg p-3 border border-tertiary/20">For Hiders: size, pose, emotes, and map geometry can change what looks natural.</div>
+<div class="bg-surface-container/50 rounded-lg p-3 border border-primary-container/20">For Seekers/Hunters: timing and route discipline matter more when shots or checks are slower.</div>
+</div>
+</div>
+<!-- Q5 -->`,
+    );
+  }
+
+  return html;
+}
+
 function patchHtml(html, file) {
   const interactionAssets = '<link rel="stylesheet" href="/app-interactions.css"/><script defer src="/app-interactions.js"></script>';
-  return addHowToPlayContent(html, file)
+  return addSteamUpdateContent(addHowToPlayContent(html, file), file)
     .replace(/<button\b[^>]*>\s*(?:LOGIN|Login|Sign In|SIGN IN|Log In)\s*<\/button>/g, '')
     .replace(/©\s*2024/g, '© 2026')
     .replace(/©2024/g, '© 2026')
