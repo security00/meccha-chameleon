@@ -297,17 +297,73 @@ Official Steam news has mentioned updates such as the Cube character, individual
   return html;
 }
 
+function replaceStaticPlaceholderLinks(html) {
+  const linkMap = new Map([
+    ['steam store', 'https://store.steampowered.com/app/4704690/MECCHA_CHAMELEON/'],
+    ['view on steam', 'https://store.steampowered.com/app/4704690/MECCHA_CHAMELEON/'],
+    ['buy on steam', 'https://store.steampowered.com/app/4704690/MECCHA_CHAMELEON/'],
+    ['play now', 'https://store.steampowered.com/app/4704690/MECCHA_CHAMELEON/'],
+    ['where to play', '/where-to-play/'],
+    ['how to play', '/beginner-guide/'],
+    ['beginner guide', '/beginner-guide/'],
+    ['guides', '/beginner-guide/'],
+    ['hider tips', '/hider-guide/'],
+    ['hider guide', '/hider-guide/'],
+    ['seeker tips', '/seeker-guide/'],
+    ['seeker guide', '/seeker-guide/'],
+    ['join friends', '/join-friends/'],
+    ['join party', '/join-friends/'],
+    ['server status', '/server-not-showing/'],
+    ['troubleshoot', '/server-not-showing/'],
+    ['faq', '/faq/'],
+    ['support', '/contact/'],
+    ['contact', '/contact/'],
+    ['contact us', '/contact/'],
+    ['press kit', '/contact/'],
+    ['socials', '/contact/'],
+    ['community', '/contact/'],
+    ['privacy', '/privacy/'],
+    ['privacy policy', '/privacy/'],
+    ['terms', '/terms/'],
+    ['terms of service', '/terms/'],
+    ['safety', '/terms/#download-policy'],
+    ['home', '/'],
+    ['meccha chameleon', '/'],
+  ]);
+  return html.replace(/<a\b([^>]*?)href="#"([^>]*)>([\s\S]*?)<\/a>/gi, (match, before, after, body) => {
+    const rawLabel = body.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+    const label = rawLabel.toLowerCase();
+    const href = linkMap.get(label) || '/faq/';
+    const safeLabel = label === 'community' || label === 'socials' ? 'Contact' : rawLabel;
+    const attrs = href.startsWith('http') ? `${before}href="${href}" target="_blank" rel="noopener noreferrer"${after}` : `${before}href="${href}"${after}`;
+    return `<a${attrs}>${safeLabel}</a>`;
+  });
+}
+
 function patchHtml(html, file) {
   const interactionAssets = '<link rel="stylesheet" href="/app-interactions.css"/><script defer src="/app-interactions.js"></script>';
-  return addSteamUpdateContent(addHowToPlayContent(html, file), file)
+  const complianceStrip = `<section class="mc-compliance-strip" aria-label="Source and affiliation note">
+  <strong>Unofficial guide.</strong> Not affiliated with Steam, Valve, or the game developers. No downloads are hosted here.
+  <span>Source note: Steam store/news pages and public player-facing materials; gameplay advice is original and source-labeled.</span>
+  <span>Last checked: June 25, 2026.</span>
+</section>`;
+  return replaceStaticPlaceholderLinks(addSteamUpdateContent(addHowToPlayContent(html, file), file))
     .replace(/<button\b[^>]*>\s*(?:LOGIN|Login|Sign In|SIGN IN|Log In)\s*<\/button>/g, '')
+    .replace(/\$5\.99/g, 'Steam listing')
+    .replace(/The ultimate guide to the Steam listing Steam party game\. Paint yourself to blend in, outsmart your friends, and master the art of the hide!/g, 'An unofficial Steam player guide for safe store access, friend setup, beginner basics, and practical hide-and-seek habits.')
+    .replace(/The Ultimate Hide &amp; Seek/g, 'Steam Hide &amp; Seek')
+    .replace(/Grab your friends and jump into the ultimate colorful chaos!/g, 'Grab your friends and jump into colorful hide-and-seek rounds.')
+    .replace(/Master the art of spotting the ultimate party crashers! Follow these top tips to become a pro seeker\./g, 'Learn practical ways to spot well-hidden Hiders without relying on map-specific claims.')
+    .replace(/Master the Game/g, 'Learn the Basics')
+    .replace(/Seeker Guide: Find Them All!/g, 'Seeker Guide: Improve Your Search')
+    .replace(/even the best-hidden friends/g, 'well-hidden friends')
     .replace(/©\s*2024/g, '© 2026')
     .replace(/©2024/g, '© 2026')
     .replace(/Last Updated:\s*October 2024/g, 'Last Updated: June 25, 2026')
     .replace(/Last updated:\s*October 24, 2024/g, 'Last updated: June 25, 2026')
     .replace(/<meta charset="utf-8"\/>/, '<meta charset="utf-8"/><meta name="generator" content="Next.js static export + Cloudflare Workers Assets"/>')
     .replace(/<\/head>/, `${interactionAssets}</head>`)
-    .replace(/<\/body>/, '<footer style="position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden">Unofficial guide. Not affiliated with Steam or developers.</footer></body>');
+    .replace(/<\/body>/, `${complianceStrip}</body>`);
 }
 
 for (const [route, file] of routes) {

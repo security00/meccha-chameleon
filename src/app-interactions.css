@@ -54,4 +54,24 @@
   font-weight: 700;
   line-height: 1.5;
 }
+.mc-compliance-strip {
+  width: min(1120px, calc(100% - 32px));
+  margin: 48px auto 24px;
+  padding: 16px 18px;
+  border: 1px solid rgba(226, 224, 252, .16);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(93, 217, 208, .12), transparent 36%),
+    rgba(10, 14, 31, .72);
+  color: rgba(226, 224, 252, .78);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, .26);
+  font: 500 13px/1.55 "Plus Jakarta Sans", Arial, sans-serif;
+}
+.mc-compliance-strip strong {
+  color: #ffb1c5;
+}
+.mc-compliance-strip span {
+  display: block;
+  margin-top: 4px;
+}
 [hidden] { display: none !important; }
