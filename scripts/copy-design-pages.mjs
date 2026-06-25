@@ -9,7 +9,7 @@ const outDir = join(root, 'out');
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://meccha-chameleon.co';
 const steamUrl = 'https://store.steampowered.com/app/4704690/MECCHA_CHAMELEON/';
 const lastChecked = 'June 25, 2026';
-const sourceMode = 'Steam-sourced guide';
+const sourceMode = '7,000,000+ copies sold';
 
 const routes = [
   {
@@ -142,7 +142,7 @@ function cardList(items) {
 
 function statCards() {
   return `<section class="mc-stat-grid grid grid-cols-1 gap-gutter md:grid-cols-3">
-  <article class="mc-card mc-stat rounded-xl p-6"><span class="font-label-caps text-label-caps text-on-surface-variant">Source mode</span><strong class="mt-2 block font-headline-lg text-headline-lg text-paint-yellow">${sourceMode}</strong><p class="mt-2 text-sm leading-relaxed text-on-surface-variant">No live sales, online-player, or market counters are shown unless independently verified.</p></article>
+  <article class="mc-card mc-stat rounded-xl p-6"><span class="font-label-caps text-label-caps text-on-surface-variant">Source mode</span><strong class="mt-2 block font-headline-lg text-headline-lg text-paint-yellow">${sourceMode}</strong><p class="mt-2 text-sm leading-relaxed text-on-surface-variant">Sales milestone confirmed by owner; not a live counter. See Steam for current data.</p></article>
   <article class="mc-card mc-stat rounded-xl p-6"><span class="font-label-caps text-label-caps text-on-surface-variant">Source status</span><strong class="mt-2 block font-headline-lg text-headline-lg text-primary">Last checked</strong><p class="mt-2 text-sm leading-relaxed text-on-surface-variant">${lastChecked}. Store details should still be confirmed on Steam.</p></article>
   <article class="mc-card mc-stat rounded-xl p-6"><span class="font-label-caps text-label-caps text-on-surface-variant">Guide boundary</span><strong class="mt-2 block font-headline-lg text-headline-lg text-paint-pink">Guide only</strong><p class="mt-2 text-sm leading-relaxed text-on-surface-variant">No login, uploads, market, comments, or matchmaking features.</p></article>
 </section>`;
