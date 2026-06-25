@@ -297,6 +297,116 @@ Official Steam news has mentioned updates such as the Cube character, individual
   return html;
 }
 
+function addImmersiveMedia(html, file) {
+  if (file !== 'homepage-desktop.html') return html;
+
+  html = html.replace(
+    /<img alt="Hero Image" class="w-full h-full object-cover" src="[^"]+"\/>/,
+    '<img alt="Meccha Chameleon promotional wall art from supplied game media" class="w-full h-full object-cover" src="/media/game/logo-wall.webp" loading="eager" decoding="async"/>',
+  );
+
+  if (html.includes('Gameplay field notes from real screenshots')) return html;
+
+  const marker = `<!-- Feature Section -->`;
+  const immersiveSection = `<!-- Immersive Media Section -->
+<section class="w-full mc-immersive-panel" aria-label="Gameplay screenshot field notes">
+  <div class="mc-immersive-panel__copy">
+    <p class="font-label-bold text-secondary uppercase tracking-[0.24em] mb-3">Gameplay field notes from real screenshots</p>
+    <h2 class="font-headline-md text-headline-md text-on-surface mb-4">Use the screenshots as a visual guide, not as official claims.</h2>
+    <p class="text-on-surface-variant mb-5">These supplied game images help players understand the mood of Meccha Chameleon: crowded rooms, busy wallpaper, color tools, shelves, corridors, and places where a Hider can either disappear or stand out. The site keeps them source-labeled and uses them to teach practical reading habits.</p>
+    <div class="mc-media-source">Media source: owner-supplied game promotional/screenshots. Used on this unofficial guide with visible attribution; trademarks and game media belong to their respective owners.</div>
+  </div>
+  <div class="mc-shot-grid">
+    <figure><img src="/media/game/hotel-lobby.webp" alt="Hotel-like lobby scene with stairs and decorations" loading="lazy" decoding="async"/><figcaption>Wide spaces: scan furniture, rails, and shadows first.</figcaption></figure>
+    <figure><img src="/media/game/paint-room.webp" alt="Color editor and patterned wall gameplay screenshot" loading="lazy" decoding="async"/><figcaption>Paint matching: hue plus brightness, not color alone.</figcaption></figure>
+    <figure><img src="/media/game/laundry-hall.webp" alt="Laundry and hallway scene with a player character" loading="lazy" decoding="async"/><figcaption>Busy rooms: Hiders need natural poses, Seekers need edges.</figcaption></figure>
+    <figure><img src="/media/game/bathroom-hall.webp" alt="Bathroom and decorated hallway gameplay screenshot" loading="lazy" decoding="async"/><figcaption>Corridors: check corners before chasing movement.</figcaption></figure>
+  </div>
+</section>
+<!-- Video Curation Section -->
+<section class="w-full mc-video-panel" aria-label="Curated gameplay videos plan">
+  <div>
+    <p class="font-label-bold text-tertiary uppercase tracking-[0.24em] mb-3">Curated clips, safe by design</p>
+    <h2 class="font-headline-md text-headline-md text-on-surface mb-3">YouTube / TikTok clips can enrich the guide, but should be curated and lazy-loaded.</h2>
+    <p class="text-on-surface-variant">Recommended implementation: add 3–6 hand-picked videos per guide topic with creator/channel attribution, an external-source label, and a click-to-load embed so third-party scripts do not slow every page or surprise visitors. Live streams are better as links or scheduled cards because embeds are unstable and may vanish.</p>
+  </div>
+  <div class="mc-video-cards">
+    <article><span>01</span><strong>Beginner round flow</strong><p>Short clips showing lobby setup, role reveal, and first search pattern.</p></article>
+    <article><span>02</span><strong>Hider camouflage examples</strong><p>Clips that demonstrate paint matching, pose choice, and why silhouettes fail.</p></article>
+    <article><span>03</span><strong>Seeker review habits</strong><p>VOD snippets for scanning corridors, clutter, shelves, and shadowed corners.</p></article>
+  </div>
+</section>
+${marker}`;
+
+  return html.replace(marker, immersiveSection);
+}
+
+function addGuideMedia(html, file) {
+  const guideMedia = {
+    'beginner-guide-desktop.html': {
+      title: 'Visual cues for your first rounds',
+      body: 'Use these screenshots to understand what a round asks you to read: the room layout, the color tools, the chosen map, and where players naturally look first.',
+      images: [
+        ['farm-round', 'Farm round view with player HUD', 'Start by learning the room before chasing perfect paint.'],
+        ['green-room', 'Green patterned room with editor UI', 'Patterns and brightness make a disguise believable.'],
+      ],
+      clips: ['Lobby setup and role reveal', 'First Hider paint pass', 'First Seeker route review'],
+    },
+    'hider-guide-desktop.html': {
+      title: 'Hider visual examples',
+      body: 'Good hiding is a scene-reading problem. Match the surface, fit the object cluster, and make the pose look like it belongs there.',
+      images: [
+        ['brick-hide', 'Brick wall and statue-like hiding example', 'Strong backgrounds help only if your silhouette also fits.'],
+        ['green-room', 'Patterned green wall gameplay view', 'Copy the big pattern first; small details come second.'],
+      ],
+      clips: ['Camouflage before and after', 'Pose choice in cluttered rooms', 'When not to move'],
+    },
+    'seeker-guide-desktop.html': {
+      title: 'Seeker visual examples',
+      body: 'Search in layers: clear corners, scan clutter, check edges, then return to suspicious spots. The goal is consistency, not random speed.',
+      images: [
+        ['meat-locker', 'Dark shelf and storage room screenshot', 'Dark clutter needs edge and silhouette checks.'],
+        ['yellow-hall', 'Yellow corridor gameplay screenshot', 'Corridors reward route discipline and corner checks.'],
+      ],
+      clips: ['Zone-by-zone search route', 'Spotting broken patterns', 'Reviewing missed hiding spots'],
+    },
+  };
+  const config = guideMedia[file];
+  if (!config || html.includes(config.title)) return html;
+
+  const images = config.images.map(([slug, alt, caption]) => `<figure><img src="/media/game/${slug}.webp" alt="${alt}" loading="lazy" decoding="async"/><figcaption>${caption}</figcaption></figure>`).join('');
+  const clips = config.clips.map((clip, index) => `<article><span>${String(index + 1).padStart(2, '0')}</span><strong>${clip}</strong><p>Reserved for a curated YouTube/TikTok clip with creator attribution and click-to-load embed.</p></article>`).join('');
+  const section = `<!-- Guide Media Examples -->
+<section class="mc-guide-media" aria-label="${config.title}">
+  <div>
+    <p class="mc-kicker">Screenshot guide</p>
+    <h2>${config.title}</h2>
+    <p>${config.body}</p>
+    <div class="mc-media-source">Media source: owner-supplied game promotional/screenshots. Gameplay notes are original and written for this unofficial guide.</div>
+  </div>
+  <div class="mc-guide-media__images">${images}</div>
+</section>
+<section class="mc-clip-roadmap" aria-label="Curated clip slots for ${config.title}">
+  <div>
+    <p class="mc-kicker">Community clips roadmap</p>
+    <h2>Future YouTube / TikTok slots</h2>
+    <p>These slots are ready for hand-picked creator clips. They intentionally do not auto-load third-party embeds until specific videos are approved.</p>
+  </div>
+  <div class="mc-video-cards">${clips}</div>
+</section>`;
+
+  if (file === 'beginner-guide-desktop.html') {
+    return html.replace('<!-- Step 5: Hider Details -->', `${section}\n<!-- Step 5: Hider Details -->`);
+  }
+  if (file === 'hider-guide-desktop.html') {
+    return html.replace('<!-- CTA Section -->', `${section}\n<!-- CTA Section -->`);
+  }
+  if (file === 'seeker-guide-desktop.html') {
+    return html.replace('<!-- Disclaimer -->', `${section}\n<!-- Disclaimer -->`);
+  }
+  return html;
+}
+
 function replaceStaticPlaceholderLinks(html) {
   const linkMap = new Map([
     ['steam store', 'https://store.steampowered.com/app/4704690/MECCHA_CHAMELEON/'],
@@ -347,7 +457,7 @@ function patchHtml(html, file) {
   <span>Source note: Steam store/news pages and public player-facing materials; gameplay advice is original and source-labeled.</span>
   <span>Last checked: June 25, 2026.</span>
 </section>`;
-  return replaceStaticPlaceholderLinks(addSteamUpdateContent(addHowToPlayContent(html, file), file))
+  return addGuideMedia(addImmersiveMedia(replaceStaticPlaceholderLinks(addSteamUpdateContent(addHowToPlayContent(html, file), file)), file), file)
     .replace(/<button\b[^>]*>\s*(?:LOGIN|Login|Sign In|SIGN IN|Log In)\s*<\/button>/g, '')
     .replace(/\$5\.99/g, 'Steam listing')
     .replace(/The ultimate guide to the Steam listing Steam party game\. Paint yourself to blend in, outsmart your friends, and master the art of the hide!/g, 'An unofficial Steam player guide for safe store access, friend setup, beginner basics, and practical hide-and-seek habits.')
@@ -361,6 +471,8 @@ function patchHtml(html, file) {
     .replace(/©2024/g, '© 2026')
     .replace(/Last Updated:\s*October 2024/g, 'Last Updated: June 25, 2026')
     .replace(/Last updated:\s*October 24, 2024/g, 'Last updated: June 25, 2026')
+    .replace(/Spotted an error in our database or guides\?/g, 'Spotted an error in our information or guides?')
+    .replace(/>database<\/span>/g, '>info</span>')
     .replace(/<meta charset="utf-8"\/>/, '<meta charset="utf-8"/><meta name="generator" content="Next.js static export + Cloudflare Workers Assets"/>')
     .replace(/<\/head>/, `${interactionAssets}</head>`)
     .replace(/<\/body>/, `${complianceStrip}</body>`);

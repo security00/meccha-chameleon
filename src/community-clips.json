@@ -1,0 +1,41 @@
+{
+  "notes": "Curated video slots for future YouTube/TikTok embeds. Keep null URLs until owner approves specific clips. Use click-to-load embeds and creator attribution.",
+  "slots": [
+    {
+      "route": "/",
+      "topic": "homepage",
+      "title": "Beginner round flow",
+      "source": null,
+      "creator": null,
+      "url": null,
+      "embedPolicy": "click-to-load"
+    },
+    {
+      "route": "/beginner-guide/",
+      "topic": "beginner",
+      "title": "Lobby setup and role reveal",
+      "source": null,
+      "creator": null,
+      "url": null,
+      "embedPolicy": "click-to-load"
+    },
+    {
+      "route": "/hider-guide/",
+      "topic": "hider",
+      "title": "Camouflage before and after",
+      "source": null,
+      "creator": null,
+      "url": null,
+      "embedPolicy": "click-to-load"
+    },
+    {
+      "route": "/seeker-guide/",
+      "topic": "seeker",
+      "title": "Zone-by-zone search route",
+      "source": null,
+      "creator": null,
+      "url": null,
+      "embedPolicy": "click-to-load"
+    }
+  ]
+}
