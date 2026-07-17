@@ -175,7 +175,7 @@
         return;
       }
       const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
-      const mailto = `mailto:hello@mecchachameleon.guide?subject=${encodeURIComponent(subject)}&body=${body}`;
+      const mailto = `mailto:support@meccha-chameleon.co?subject=${encodeURIComponent(subject)}&body=${body}`;
       status.textContent = 'Opening your email app with this message. No personal data is stored on this site.';
       status.style.color = '#5dd9d0';
       track('contact_mailto_open', { page_path: location.pathname });
