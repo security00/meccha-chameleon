@@ -42,6 +42,11 @@ export default function PrivacyPage() {
           Track signals are respected by the interaction logger. Hosting and security infrastructure
           may still process standard request data for delivery, reliability, and abuse prevention.
         </p>
+        <p>
+          Cloudflare may also load its Web Analytics performance beacon to measure aggregate loading
+          and Core Web Vital metrics. It is used for site performance monitoring, not advertising or
+          cross-site visitor tracking.
+        </p>
       </section>
 
       <section>
