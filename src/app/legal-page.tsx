@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { CrosshairIcon } from "@phosphor-icons/react/dist/ssr";
 
 type LegalPageProps = {
   title: string;
@@ -16,7 +17,7 @@ export default function LegalPage({ title, intro, children }: LegalPageProps) {
 
       <header className="legal-header">
         <Link className="legal-brand" href="/">
-          <span aria-hidden="true">◎</span>
+          <CrosshairIcon aria-hidden="true" />
           <span>
             <strong>Meccha Chameleon</strong>
             <small>Unofficial field guide</small>

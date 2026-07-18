@@ -28,9 +28,15 @@ export default function PrivacyPage() {
       <section>
         <h2>2. Cookies and analytics</h2>
         <p>
-          At the date of this policy, the site does not use advertising cookies or a visitor analytics
-          service. Essential infrastructure may still use short-lived technical data when required
-          for security, reliability, or network delivery.
+          The site does not use advertising cookies or create a visitor profile. It sends a limited
+          set of first-party events, such as a page view, guide filter, outbound Steam click, or
+          prepared feedback email, to the hosting Worker. Event records contain the event name and
+          requested path, not the form message, email address, or a site-generated user identifier.
+        </p>
+        <p>
+          These events are used to understand which guide sections need maintenance. Browser Do Not
+          Track signals are respected by the interaction logger. Hosting and security infrastructure
+          may still process standard request data for delivery, reliability, and abuse prevention.
         </p>
       </section>
 
