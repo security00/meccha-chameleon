@@ -18,6 +18,9 @@ const barlowCondensed = Barlow_Condensed({
   display: "swap",
 });
 
+const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
+const bingVerification = process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION;
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
@@ -48,6 +51,14 @@ export const metadata: Metadata = {
       "Complete hider, seeker, map, camouflage, and troubleshooting field files with source notes.",
     images: ["/media/game/promo-poster.webp"],
   },
+  ...(googleVerification || bingVerification
+    ? {
+        verification: {
+          google: googleVerification,
+          other: bingVerification ? { "msvalidate.01": bingVerification } : undefined,
+        },
+      }
+    : {}),
 };
 
 export default function RootLayout({
@@ -55,9 +66,25 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Meccha Chameleon Field Manual",
+    alternateName: "Meccha Chameleon Unofficial Field Guide",
+    url: SITE_URL,
+    description:
+      "An independent field guide for Meccha Chameleon roles, maps, camouflage, and troubleshooting.",
+  };
+
   return (
     <html lang="en" className={`${barlow.variable} ${barlowCondensed.variable}`}>
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteJsonLd).replace(/</g, "\\u003c"),
+          }}
+        />
         {children}
         <SiteAnalytics />
       </body>

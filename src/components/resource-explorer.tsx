@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ArrowRightIcon, MagnifyingGlassIcon } from "@phosphor-icons/react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export type SearchResource = {
   title: string;
@@ -60,6 +60,29 @@ export default function ResourceExplorer({ resources }: ResourceExplorerProps) {
       new CustomEvent("mc:track", { detail: { event: "resource_filter", label: value } }),
     );
   };
+
+  useEffect(() => {
+    const normalizedQuery = query.trim().toLowerCase();
+    if (normalizedQuery.length < 2) return;
+
+    const timer = window.setTimeout(() => {
+      window.dispatchEvent(
+        new CustomEvent("mc:track", {
+          detail: { event: "resource_search", label: normalizedQuery.slice(0, 80) },
+        }),
+      );
+
+      if (matches.length === 0) {
+        window.dispatchEvent(
+          new CustomEvent("mc:track", {
+            detail: { event: "search_zero_results", label: normalizedQuery.slice(0, 80) },
+          }),
+        );
+      }
+    }, 800);
+
+    return () => window.clearTimeout(timer);
+  }, [matches.length, query]);
 
   return (
     <section className="resource-explorer" aria-labelledby="resource-explorer-title">

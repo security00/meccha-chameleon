@@ -2,10 +2,17 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeftIcon, ArrowSquareOutIcon, CheckCircleIcon } from "@phosphor-icons/react/dist/ssr";
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  ArrowSquareOutIcon,
+  CheckCircleIcon,
+} from "@phosphor-icons/react/dist/ssr";
+import ArticleJsonLd from "@/components/article-json-ld";
+import ArticleTools from "@/components/article-tools";
 import FeedbackPanel from "@/components/feedback-panel";
 import SiteShell from "@/components/site-shell";
-import { CONTENT_REVIEWED_ON, getMapGuide, mapGuides } from "@/content/field-guide";
+import { getMapGuide, guideArticles, mapGuides } from "@/content/field-guide";
 
 type MapPageProps = {
   params: Promise<{ slug: string }>;
@@ -29,6 +36,8 @@ export async function generateMetadata({ params }: MapPageProps): Promise<Metada
     openGraph: {
       title: `${map.name} map file`,
       description: map.description,
+      type: "article",
+      modifiedTime: map.review.verifiedOn,
       images: [{ url: map.image, alt: map.imageAlt }],
     },
   };
@@ -38,9 +47,19 @@ export default async function MapPage({ params }: MapPageProps) {
   const { slug } = await params;
   const map = getMapGuide(slug);
   if (!map) notFound();
+  const relatedGuides = guideArticles.slice(0, 3);
 
   return (
     <SiteShell active="maps">
+      <ArticleJsonLd
+        title={`${map.name} map file`}
+        description={map.description}
+        path={`/maps/${map.slug}/`}
+        image={map.image}
+        modifiedOn={map.review.verifiedOn}
+        sectionLabel="Maps"
+        sectionPath="/maps/"
+      />
       <nav className="content-breadcrumbs" aria-label="Breadcrumb">
         <Link href="/maps/">
           <ArrowLeftIcon aria-hidden="true" /> All map files
@@ -66,7 +85,11 @@ export default async function MapPage({ params }: MapPageProps) {
               </div>
               <div>
                 <dt>Reviewed</dt>
-                <dd>{CONTENT_REVIEWED_ON}</dd>
+                <dd>{map.review.verifiedOn}</dd>
+              </div>
+              <div>
+                <dt>Callouts</dt>
+                <dd>{map.review.needsReview ? "Pending" : "Verified"}</dd>
               </div>
             </dl>
           </div>
@@ -76,6 +99,8 @@ export default async function MapPage({ params }: MapPageProps) {
           </figure>
         </header>
 
+        <ArticleTools />
+
         <section className="patch-file" aria-labelledby="patch-title">
           <div>
             <p className="section-kicker">Official patch evidence</p>
@@ -84,6 +109,20 @@ export default async function MapPage({ params }: MapPageProps) {
           <div>
             <strong>{map.officialStatus}</strong>
             <p>{map.patchNote}</p>
+            <dl className="verification-meta">
+              <div>
+                <dt>Checked against</dt>
+                <dd>Game {map.review.gameVersion}</dd>
+              </div>
+              <div>
+                <dt>Review status</dt>
+                <dd>{map.review.status.replaceAll("-", " ")}</dd>
+              </div>
+              <div>
+                <dt>Reviewer</dt>
+                <dd>{map.review.reviewer}</dd>
+              </div>
+            </dl>
           </div>
         </section>
 
@@ -116,6 +155,7 @@ export default async function MapPage({ params }: MapPageProps) {
               <a key={source.url} href={source.url} target="_blank" rel="noreferrer">
                 <span>{source.kind}</span>
                 <strong>{source.label}</strong>
+                {source.publishedOn ? <small>Published {source.publishedOn}</small> : null}
                 <ArrowSquareOutIcon aria-hidden="true" />
               </a>
             ))}
@@ -123,6 +163,22 @@ export default async function MapPage({ params }: MapPageProps) {
         </section>
 
         <FeedbackPanel context={`Map file: ${map.name}`} />
+
+        <section className="related-files" aria-labelledby="map-related-title">
+          <div>
+            <p className="section-kicker">Continue the manual</p>
+            <h2 id="map-related-title">Useful role guides</h2>
+          </div>
+          <div>
+            {relatedGuides.map((entry) => (
+              <Link key={entry.slug} href={`/guides/${entry.slug}/`}>
+                <span>{entry.eyebrow}</span>
+                <strong>{entry.shortTitle}</strong>
+                <ArrowRightIcon aria-hidden="true" />
+              </Link>
+            ))}
+          </div>
+        </section>
       </article>
     </SiteShell>
   );

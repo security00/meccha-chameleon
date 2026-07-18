@@ -15,8 +15,10 @@ export default function PrivacyPage() {
       <section>
         <h2>1. What we collect</h2>
         <p>
-          The site does not currently offer user accounts, payments, comments, or an on-site contact
-          form. We do not intentionally collect profile information through the website.
+          The site does not offer user accounts, payments, or public comments. If you submit the
+          correction form, we store the report type, page, guide context, message, submission time,
+          and a random reference number in a private review queue. The form does not ask for your
+          name or email address.
         </p>
         <p>
           Like most hosted websites, the hosting and security infrastructure may automatically
@@ -30,8 +32,10 @@ export default function PrivacyPage() {
         <p>
           The site does not use advertising cookies or create a visitor profile. It sends a limited
           set of first-party events, such as a page view, guide filter, outbound Steam click, or
-          prepared feedback email, to the hosting Worker. Event records contain the event name and
-          requested path, not the form message, email address, or a site-generated user identifier.
+          submitted feedback report, to the hosting Worker. Search events may include the search term
+          you entered, capped at 80 characters, so we can identify missing topics and zero-result
+          searches. Event records otherwise contain the event name and requested path, not an email
+          address, cookie ID, or site-generated visitor identifier.
         </p>
         <p>
           These events are used to understand which guide sections need maintenance. Browser Do Not
@@ -41,11 +45,12 @@ export default function PrivacyPage() {
       </section>
 
       <section>
-        <h2>3. Email correspondence</h2>
+        <h2>3. Feedback and email correspondence</h2>
         <p>
-          If you email us, we receive your email address, message, and standard email metadata. We use
-          that information only to review and respond to your request, keep necessary support records,
-          and protect against spam or abuse.
+          On-site feedback is used to review and correct field files. If you use the email fallback,
+          we also receive your email address, message, and standard email metadata. We use this
+          information only to review and respond, keep necessary support records, and protect against
+          spam or abuse.
         </p>
       </section>
 
@@ -61,9 +66,10 @@ export default function PrivacyPage() {
       <section>
         <h2>5. Retention and service providers</h2>
         <p>
-          Information is retained only as long as reasonably necessary for the purposes described
-          above. Hosting, network, and email providers may process limited data on our behalf under
-          their own security and retention practices.
+          First-party analytics events are automatically removed after 90 days. Feedback submissions
+          are automatically removed after 365 days unless a legal or security need requires a longer
+          record. Hosting, database, network, and email providers may process limited data on our
+          behalf under their own security and retention practices.
         </p>
       </section>
 

@@ -13,3 +13,12 @@ run_worker_first = true
 [observability]
 enabled = true
 head_sampling_rate = 1
+
+[[d1_databases]]
+binding = "DB"
+database_name = "meccha-chameleon-data"
+database_id = "28328a23-deca-4370-91c8-bad1a55a1254"
+migrations_dir = "migrations"
+
+[triggers]
+crons = ["17 3 * * *"]

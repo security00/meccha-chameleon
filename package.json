@@ -8,6 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "content:check": "node --use-env-proxy scripts/check-content-freshness.mjs",
+    "data:summary": "wrangler d1 execute meccha-chameleon-data --remote --command=\"SELECT event, COUNT(*) AS total FROM site_events WHERE created_at >= datetime('now', '-30 days') GROUP BY event ORDER BY total DESC; SELECT category, status, COUNT(*) AS total FROM feedback_submissions GROUP BY category, status ORDER BY total DESC;\"",
     "cf:dry-run": "npm run build && wrangler deploy --dry-run",
     "deploy:workers": "npm run build && wrangler deploy"
   },

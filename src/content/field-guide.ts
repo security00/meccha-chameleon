@@ -1,8 +1,13 @@
 export const CONTENT_REVIEWED_ON = "2026-07-18";
+export const CURRENT_GAME_VERSION = "2.8.0";
 export const OFFICIAL_STORE_URL =
   "https://store.steampowered.com/app/4704690/MECCHA_CHAMELEON/";
 export const OFFICIAL_COMMUNITY_URL = "https://steamcommunity.com/app/4704690/";
 export const OFFICIAL_GUIDES_URL = "https://steamcommunity.com/app/4704690/guides/";
+export const OFFICIAL_UPDATE_2_8_URL =
+  "https://steamcommunity.com/games/4704690/announcements/detail/711155348639056585";
+export const OFFICIAL_UPDATE_2_7_URL =
+  "https://steamcommunity.com/games/4704690/announcements/detail/674000199448790529";
 
 export type Accent = "pink" | "cyan" | "yellow" | "green";
 export type GuideRole = "hider" | "seeker" | "all";
@@ -12,6 +17,23 @@ export type SourceLink = {
   label: string;
   url: string;
   kind: "Official" | "Community" | "Editorial";
+  publishedOn?: string;
+};
+
+export type ContentReview = {
+  verifiedOn: string;
+  gameVersion: string;
+  reviewer: string;
+  status: "source-verified" | "editorial-reviewed" | "needs-review";
+  needsReview: boolean;
+};
+
+const CURRENT_EDITORIAL_REVIEW: ContentReview = {
+  verifiedOn: CONTENT_REVIEWED_ON,
+  gameVersion: CURRENT_GAME_VERSION,
+  reviewer: "Field guide editorial review",
+  status: "editorial-reviewed",
+  needsReview: false,
 };
 
 export type GuideSection = {
@@ -36,6 +58,7 @@ export type GuideArticle = {
   imageAlt: string;
   tags: readonly string[];
   verification: string;
+  review: ContentReview;
   sections: readonly GuideSection[];
   sources: readonly SourceLink[];
 };
@@ -55,6 +78,7 @@ export const guideArticles: readonly GuideArticle[] = [
     image: "/media/game/green-room.webp",
     imageAlt: "A painted player blending into a framed green wall scene",
     tags: ["paint", "silhouette", "material", "movement", "beginner"],
+    review: CURRENT_EDITORIAL_REVIEW,
     verification:
       "The paint-and-pose premise is confirmed by the official Steam listing. Tactical sequencing is field-guide editorial advice and should be rechecked after major patches.",
     sections: [
@@ -112,6 +136,7 @@ export const guideArticles: readonly GuideArticle[] = [
     image: "/media/game/meat-locker.webp",
     imageAlt: "A dense interior used as a visual reference for a Seeker search route",
     tags: ["search", "route", "zones", "movement", "beginner"],
+    review: CURRENT_EDITORIAL_REVIEW,
     verification:
       "The Seeker role and paint-based deception are confirmed by the official listing. The route method is editorial practice rather than an official game mechanic.",
     sections: [
@@ -169,6 +194,7 @@ export const guideArticles: readonly GuideArticle[] = [
     image: "/media/game/hotel-lobby.webp",
     imageAlt: "A decorated hotel-like lobby used as a map-planning reference",
     tags: ["maps", "workshop", "random", "route", "scouting"],
+    review: CURRENT_EDITORIAL_REVIEW,
     verification:
       "Official update 2.7.0 confirms per-map random-pool toggles and random elements on Penguin Hotel. The scouting worksheet is editorial guidance.",
     sections: [
@@ -226,6 +252,7 @@ export const guideArticles: readonly GuideArticle[] = [
     image: "/media/game/brick-hide.webp",
     imageAlt: "A player hiding against a brick wall with a low-contrast paint treatment",
     tags: ["contrast", "pose", "lighting", "advanced", "mind games"],
+    review: CURRENT_EDITORIAL_REVIEW,
     verification:
       "This is an editorial strategy chapter built on the official paint, pose, and spot premise. It does not claim hidden mechanics or guaranteed spots.",
     sections: [
@@ -283,6 +310,7 @@ export type MapGuide = {
   patch: string;
   patchNote: string;
   tags: readonly string[];
+  review: ContentReview;
   fieldChecklist: readonly string[];
   sources: readonly SourceLink[];
 };
@@ -301,12 +329,26 @@ export const mapGuides: readonly MapGuide[] = [
     patch: "2.8.0",
     patchNote: "Added as a new map; no stable route claims are published here yet.",
     tags: ["official", "new", "2.8.0", "route pending"],
+    review: {
+      verifiedOn: CONTENT_REVIEWED_ON,
+      gameVersion: CURRENT_GAME_VERSION,
+      reviewer: "Official patch note checked; in-game callouts pending",
+      status: "needs-review",
+      needsReview: true,
+    },
     fieldChecklist: [
       "Name the major rooms and connectors during the first complete lap.",
       "Record high-traffic entrances before testing hiding positions.",
       "Treat every exact prop callout as provisional until it survives a second round.",
     ],
-    sources: [{ label: "Official update feed", url: OFFICIAL_COMMUNITY_URL, kind: "Official" }],
+    sources: [
+      {
+        label: "Official update 2.8.0 announcement",
+        url: OFFICIAL_UPDATE_2_8_URL,
+        kind: "Official",
+        publishedOn: "2026-07-17",
+      },
+    ],
   },
   {
     slug: "egypt",
@@ -321,12 +363,26 @@ export const mapGuides: readonly MapGuide[] = [
     patch: "2.7.0",
     patchNote: "Added to the official map pool on July 12, 2026.",
     tags: ["official", "2.7.0", "warm tones", "scouting"],
+    review: {
+      verifiedOn: CONTENT_REVIEWED_ON,
+      gameVersion: CURRENT_GAME_VERSION,
+      reviewer: "Official patch note checked; current-build callouts pending",
+      status: "needs-review",
+      needsReview: true,
+    },
     fieldChecklist: [
       "Separate similar warm surfaces by brightness before comparing hue.",
       "Label long sightlines and dead-end rooms so Seeker routes do not double back.",
       "Verify any community spot against the current patch before publishing it as stable.",
     ],
-    sources: [{ label: "Official update feed", url: OFFICIAL_COMMUNITY_URL, kind: "Official" }],
+    sources: [
+      {
+        label: "Official update 2.7.0 announcement",
+        url: OFFICIAL_UPDATE_2_7_URL,
+        kind: "Official",
+        publishedOn: "2026-07-12",
+      },
+    ],
   },
   {
     slug: "penguin-hotel",
@@ -341,12 +397,26 @@ export const mapGuides: readonly MapGuide[] = [
     patch: "2.7.0",
     patchNote: "Random elements were added, making fixed-object callouts less reliable.",
     tags: ["official", "random elements", "hotel", "2.7.0"],
+    review: {
+      verifiedOn: CONTENT_REVIEWED_ON,
+      gameVersion: CURRENT_GAME_VERSION,
+      reviewer: "Official patch note checked; randomized layouts need ongoing review",
+      status: "needs-review",
+      needsReview: true,
+    },
     fieldChecklist: [
       "Memorize corridors, entrances, and room boundaries as the stable layer.",
       "Re-scan prop clusters each round instead of assuming the previous layout.",
       "Describe a hiding spot by room and sightline, not only by a nearby object.",
     ],
-    sources: [{ label: "Official update feed", url: OFFICIAL_COMMUNITY_URL, kind: "Official" }],
+    sources: [
+      {
+        label: "Official update 2.7.0 announcement",
+        url: OFFICIAL_UPDATE_2_7_URL,
+        kind: "Official",
+        publishedOn: "2026-07-12",
+      },
+    ],
   },
   {
     slug: "hikakin-museum",
@@ -361,12 +431,70 @@ export const mapGuides: readonly MapGuide[] = [
     patch: "2.7.0",
     patchNote: "Fixed an issue where players could get stuck too deeply into walls.",
     tags: ["official", "collaboration", "museum", "2.7.0"],
+    review: {
+      verifiedOn: CONTENT_REVIEWED_ON,
+      gameVersion: CURRENT_GAME_VERSION,
+      reviewer: "Official patch note checked; collision callouts need current-build review",
+      status: "needs-review",
+      needsReview: true,
+    },
     fieldChecklist: [
       "Re-test older wall-based spots because collision behavior changed in 2.7.0.",
       "Use room labels and exhibits as navigation anchors without claiming fixed safe spots.",
       "Report reproducible collision problems through the official community channel.",
     ],
-    sources: [{ label: "Official update feed", url: OFFICIAL_COMMUNITY_URL, kind: "Official" }],
+    sources: [
+      {
+        label: "Official update 2.7.0 announcement",
+        url: OFFICIAL_UPDATE_2_7_URL,
+        kind: "Official",
+        publishedOn: "2026-07-12",
+      },
+    ],
+  },
+];
+
+export type FieldGuideUpdate = {
+  version: string;
+  publishedOn: string;
+  reviewedOn: string;
+  title: string;
+  summary: string;
+  changes: readonly string[];
+  affectedFiles: readonly string[];
+  sourceUrl: string;
+};
+
+export const fieldGuideUpdates: readonly FieldGuideUpdate[] = [
+  {
+    version: "2.8.0",
+    publishedOn: "2026-07-17",
+    reviewedOn: CONTENT_REVIEWED_ON,
+    title: "Death Burger and Paint Mode UI fix",
+    summary:
+      "The official announcement adds Death Burger and fixes an unclickable-button state involving the Mod download screen during Paint Mode.",
+    changes: [
+      "Added the Death Burger map file with all exact room and route claims marked as pending review.",
+      "Added the Paint Mode button issue to troubleshooting and tied it to the confirmed patch note.",
+      "Moved map evidence links from the general feed to the exact update announcement.",
+    ],
+    affectedFiles: ["Death Burger map file", "Paint Mode troubleshooting"],
+    sourceUrl: OFFICIAL_UPDATE_2_8_URL,
+  },
+  {
+    version: "2.7.0",
+    publishedOn: "2026-07-12",
+    reviewedOn: CONTENT_REVIEWED_ON,
+    title: "Egypt, Penguin Hotel randomization, and HIKAKIN collision fix",
+    summary:
+      "The official announcement adds Egypt, adds random elements to Penguin Hotel, and fixes a wall-collision issue in HIKAKIN Museum.",
+    changes: [
+      "Added a source-checked Egypt map file without unverified hiding coordinates.",
+      "Marked fixed-object Penguin Hotel callouts as unreliable because layouts can vary.",
+      "Flagged older HIKAKIN Museum wall spots for current-build retesting.",
+    ],
+    affectedFiles: ["Egypt", "Penguin Hotel", "HIKAKIN Museum"],
+    sourceUrl: OFFICIAL_UPDATE_2_7_URL,
   },
 ];
 

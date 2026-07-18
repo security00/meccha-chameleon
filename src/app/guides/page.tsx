@@ -49,7 +49,7 @@ const resources: readonly SearchResource[] = [
 export default function GuidesPage() {
   return (
     <SiteShell active="guides">
-      <header className="directory-hero">
+      <header className="directory-hero guides-directory-hero">
         <p className="section-kicker">Field manual / Complete index</p>
         <h1>Choose the guide that solves this round.</h1>
         <p>

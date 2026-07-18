@@ -3,9 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeftIcon, ArrowRightIcon, ArrowSquareOutIcon } from "@phosphor-icons/react/dist/ssr";
+import ArticleJsonLd from "@/components/article-json-ld";
+import ArticleTools from "@/components/article-tools";
 import FeedbackPanel from "@/components/feedback-panel";
 import SiteShell from "@/components/site-shell";
-import { CONTENT_REVIEWED_ON, getGuide, guideArticles } from "@/content/field-guide";
+import { getGuide, guideArticles, mapGuides } from "@/content/field-guide";
 
 type GuidePageProps = {
   params: Promise<{ slug: string }>;
@@ -30,6 +32,7 @@ export async function generateMetadata({ params }: GuidePageProps): Promise<Meta
       title: guide.title,
       description: guide.description,
       type: "article",
+      modifiedTime: guide.review.verifiedOn,
       images: [{ url: guide.image, alt: guide.imageAlt }],
     },
   };
@@ -41,9 +44,19 @@ export default async function GuidePage({ params }: GuidePageProps) {
   if (!guide) notFound();
 
   const related = guideArticles.filter((entry) => entry.slug !== guide.slug).slice(0, 3);
+  const relatedMaps = mapGuides.slice(0, 2);
 
   return (
     <SiteShell active="guides">
+      <ArticleJsonLd
+        title={guide.title}
+        description={guide.description}
+        path={`/guides/${guide.slug}/`}
+        image={guide.image}
+        modifiedOn={guide.review.verifiedOn}
+        sectionLabel="Guides"
+        sectionPath="/guides/"
+      />
       <nav className="content-breadcrumbs" aria-label="Breadcrumb">
         <Link href="/guides/">
           <ArrowLeftIcon aria-hidden="true" /> All guides
@@ -73,7 +86,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
               </div>
               <div>
                 <dt>Reviewed</dt>
-                <dd>{CONTENT_REVIEWED_ON}</dd>
+                <dd>{guide.review.verifiedOn}</dd>
               </div>
             </dl>
           </div>
@@ -82,12 +95,30 @@ export default async function GuidePage({ params }: GuidePageProps) {
           </figure>
         </header>
 
+        <ArticleTools />
+
         <section className="verification-note" aria-labelledby="verification-title">
           <div>
             <p className="section-kicker">Evidence boundary</p>
             <h2 id="verification-title">What is verified</h2>
           </div>
-          <p>{guide.verification}</p>
+          <div className="verification-copy">
+            <p>{guide.verification}</p>
+            <dl className="verification-meta">
+              <div>
+                <dt>Checked against</dt>
+                <dd>Game {guide.review.gameVersion}</dd>
+              </div>
+              <div>
+                <dt>Review status</dt>
+                <dd>{guide.review.status.replaceAll("-", " ")}</dd>
+              </div>
+              <div>
+                <dt>Reviewer</dt>
+                <dd>{guide.review.reviewer}</dd>
+              </div>
+            </dl>
+          </div>
         </section>
 
         <div className="article-layout">
@@ -132,6 +163,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
               <a key={source.url} href={source.url} target="_blank" rel="noreferrer">
                 <span>{source.kind}</span>
                 <strong>{source.label}</strong>
+                {source.publishedOn ? <small>Published {source.publishedOn}</small> : null}
                 <ArrowSquareOutIcon aria-hidden="true" />
               </a>
             ))}
@@ -150,6 +182,13 @@ export default async function GuidePage({ params }: GuidePageProps) {
               <Link key={entry.slug} href={`/guides/${entry.slug}/`}>
                 <span>{entry.eyebrow}</span>
                 <strong>{entry.shortTitle}</strong>
+                <ArrowRightIcon aria-hidden="true" />
+              </Link>
+            ))}
+            {relatedMaps.map((entry) => (
+              <Link key={entry.slug} href={`/maps/${entry.slug}/`}>
+                <span>Map file / Patch {entry.patch}</span>
+                <strong>{entry.name}</strong>
                 <ArrowRightIcon aria-hidden="true" />
               </Link>
             ))}

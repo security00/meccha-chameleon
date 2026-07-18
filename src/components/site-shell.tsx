@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import { useState } from "react";
 import {
   ArrowSquareOutIcon,
+  ClockCounterClockwiseIcon,
   CrosshairIcon,
   FlaskIcon,
   ListIcon,
@@ -16,7 +17,7 @@ import {
 } from "@phosphor-icons/react";
 import { OFFICIAL_STORE_URL } from "@/content/field-guide";
 
-type ActiveSection = "start" | "guides" | "maps" | "troubleshoot";
+type ActiveSection = "start" | "guides" | "maps" | "updates" | "troubleshoot";
 
 type SiteShellProps = {
   active?: ActiveSection;
@@ -27,6 +28,12 @@ const railLinks = [
   { id: "start", label: "Start", href: "/", Icon: FlaskIcon },
   { id: "guides", label: "Roles", href: "/guides/", Icon: UserIcon },
   { id: "maps", label: "Maps", href: "/maps/", Icon: MapTrifoldIcon },
+  {
+    id: "updates",
+    label: "Updates",
+    href: "/updates/",
+    Icon: ClockCounterClockwiseIcon,
+  },
   {
     id: "troubleshoot",
     label: "Troubleshoot",
@@ -109,6 +116,7 @@ export default function SiteShell({ active = "start", children }: SiteShellProps
             <Link href="/#camouflage-lab">Camo lab</Link>
             <Link href="/guides/">Guides</Link>
             <Link href="/maps/">Maps</Link>
+            <Link href="/updates/">Updates</Link>
             <Link href="/troubleshooting/">Support</Link>
           </nav>
           <a
@@ -142,6 +150,7 @@ export default function SiteShell({ active = "start", children }: SiteShellProps
               <span>Explore</span>
               <Link href="/guides/">Role guides</Link>
               <Link href="/maps/">Map files</Link>
+              <Link href="/updates/">Guide updates</Link>
               <Link href="/troubleshooting/">Troubleshooting</Link>
               <Link href="/troubleshooting/#faq">FAQ</Link>
             </nav>
