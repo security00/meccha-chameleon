@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Barlow, Barlow_Condensed } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { SITE_URL } from "./site-config";
 import AnalyticsConsent from "@/components/analytics-consent";
@@ -80,6 +81,37 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${barlow.variable} ${barlowCondensed.variable}`}>
       <body>
+        <Script id="google-consent-default" strategy="beforeInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+var analyticsConsent = 'denied';
+try {
+  var storedAnalyticsConsent = window.localStorage.getItem('mc_analytics_consent');
+  var privacySignal = navigator.doNotTrack === '1' || navigator.globalPrivacyControl === true;
+  if (storedAnalyticsConsent === 'granted') analyticsConsent = 'granted';
+  if (!storedAnalyticsConsent && privacySignal) analyticsConsent = 'denied';
+} catch (error) {}
+gtag('consent', 'default', {
+  analytics_storage: analyticsConsent,
+  ad_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  wait_for_update: 500
+});
+gtag('set', 'ads_data_redaction', true);
+gtag('js', new Date());`}
+        </Script>
+        <Script
+          id="google-analytics-loader"
+          src="https://www.googletagmanager.com/gtag/js?id=G-SLPE8DG6NG"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics-init" strategy="afterInteractive">
+          {`gtag('config', 'G-SLPE8DG6NG', {
+  allow_google_signals: false,
+  allow_ad_personalization_signals: false
+});`}
+        </Script>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

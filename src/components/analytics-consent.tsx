@@ -54,6 +54,17 @@ export default function AnalyticsConsent() {
 
   const saveChoice = (nextChoice: "granted" | "denied") => {
     const mustReload = choice === "granted" && nextChoice === "denied";
+    const googleWindow = window as typeof window & {
+      gtag?: (...args: unknown[]) => void;
+    };
+
+    googleWindow.gtag?.("consent", "update", {
+      analytics_storage: nextChoice,
+      ad_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied",
+    });
+
     try {
       window.localStorage.setItem(CONSENT_STORAGE_KEY, nextChoice);
     } catch {
@@ -70,21 +81,6 @@ export default function AnalyticsConsent() {
     <>
       {choice === "granted" ? (
         <>
-          <Script
-            id="google-analytics-loader"
-            src="https://www.googletagmanager.com/gtag/js?id=G-SLPE8DG6NG"
-            strategy="afterInteractive"
-          />
-          <Script id="google-analytics-init" strategy="afterInteractive">
-            {`window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-SLPE8DG6NG', {
-  allow_google_signals: false,
-  allow_ad_personalization_signals: false
-});`}
-          </Script>
-
           <Script id="microsoft-clarity-init" strategy="afterInteractive">
             {`(function(c,l,a,r,i,t,y){
   c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -117,8 +113,9 @@ plausible.init();`}
             <p className="section-kicker">Privacy controls</p>
             <h2 id="analytics-consent-title">Choose analytics settings</h2>
             <p id="analytics-consent-description">
-              With permission, Google Analytics, Microsoft Clarity, and Plausible help us understand
-              visits and improve the guide. Essential site functions and aggregate Cloudflare
+              With permission, Google Analytics storage, Microsoft Clarity, and Plausible help us
+              understand visits and improve the guide. The Google tag runs with analytics storage
+              denied until you allow it. Essential site functions and aggregate Cloudflare
               performance measurements continue either way. Read the{" "}
               <Link href="/privacy/">Privacy Policy</Link>.
             </p>

@@ -38,13 +38,13 @@ export default function PrivacyPage() {
           or site-generated visitor identifier.
         </p>
         <p>
-          If you choose “Allow analytics,” the site also loads Google Analytics, Microsoft Clarity,
-          and Plausible. These services may process page URLs, referrers, device and browser details,
-          approximate location, interaction events, and technical identifiers. Google Analytics may
-          use cookies or similar storage. Microsoft Clarity provides interaction analytics and
-          session replay, which can include clicks, scrolling, pointer movement, and rendered page
-          state. Plausible provides aggregate traffic analytics through the configured ShipSolo
-          endpoint.
+          If you choose “Allow analytics,” the site enables Google Analytics storage and also loads
+          Microsoft Clarity and Plausible. These services may process page URLs, referrers, device
+          and browser details, approximate location, interaction events, and technical identifiers.
+          Google Analytics may then use cookies or similar storage. Microsoft Clarity provides
+          interaction analytics and session replay, which can include clicks, scrolling, pointer
+          movement, and rendered page state. Plausible provides aggregate traffic analytics through
+          the configured ShipSolo endpoint.
         </p>
         <p>
           Cloudflare may also load its Web Analytics performance beacon to measure aggregate loading
@@ -52,10 +52,13 @@ export default function PrivacyPage() {
           cross-site visitor tracking.
         </p>
         <p>
-          The preference is stored in your browser as <code>mc_analytics_consent</code>. Until you
-          allow analytics, the Google Analytics, Microsoft Clarity, and Plausible scripts do not load.
-          A browser Do Not Track or Global Privacy Control signal defaults the optional tools to off
-          unless you later choose otherwise through Analytics settings.
+          The preference is stored in your browser as <code>mc_analytics_consent</code>. The Google
+          tag loads on each page with Consent Mode set to deny analytics and advertising storage by
+          default. Before permission, it may send cookieless consent and measurement pings for
+          aggregate modeling, but it does not use analytics cookies. Microsoft Clarity and Plausible
+          do not load until you allow analytics. A browser Do Not Track or Global Privacy Control
+          signal defaults optional analytics storage and tools to off unless you later choose
+          otherwise through Analytics settings.
         </p>
       </section>
 
