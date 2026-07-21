@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Barlow, Barlow_Condensed } from "next/font/google";
 import "./globals.css";
 import { SITE_URL } from "./site-config";
+import AnalyticsConsent from "@/components/analytics-consent";
 import SiteAnalytics from "@/components/site-analytics";
 
 const barlow = Barlow({
@@ -87,6 +88,7 @@ export default function RootLayout({
         />
         {children}
         <SiteAnalytics />
+        <AnalyticsConsent />
       </body>
     </html>
   );

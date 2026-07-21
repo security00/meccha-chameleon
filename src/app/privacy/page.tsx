@@ -11,6 +11,7 @@ export default function PrivacyPage() {
     <LegalPage
       title="Privacy Policy"
       intro="This policy describes the limited information processed when you visit or contact the guide."
+      updatedOn={{ dateTime: "2026-07-21", label: "July 21, 2026" }}
     >
       <section>
         <h2>1. What we collect</h2>
@@ -30,22 +31,31 @@ export default function PrivacyPage() {
       <section>
         <h2>2. Cookies and analytics</h2>
         <p>
-          The site does not use advertising cookies or create a visitor profile. It sends a limited
-          set of first-party events, such as a page view, guide filter, outbound Steam click, or
-          submitted feedback report, to the hosting Worker. Search events may include the search term
-          you entered, capped at 80 characters, so we can identify missing topics and zero-result
-          searches. Event records otherwise contain the event name and requested path, not an email
-          address, cookie ID, or site-generated visitor identifier.
+          The site sends a limited set of first-party events, such as a page view, guide filter,
+          outbound Steam click, or submitted feedback report, to the hosting Worker. Search events
+          may include the search term you entered, capped at 80 characters, so we can identify missing
+          topics and zero-result searches. These records do not include an email address, cookie ID,
+          or site-generated visitor identifier.
         </p>
         <p>
-          These events are used to understand which guide sections need maintenance. Browser Do Not
-          Track signals are respected by the interaction logger. Hosting and security infrastructure
-          may still process standard request data for delivery, reliability, and abuse prevention.
+          If you choose “Allow analytics,” the site also loads Google Analytics, Microsoft Clarity,
+          and Plausible. These services may process page URLs, referrers, device and browser details,
+          approximate location, interaction events, and technical identifiers. Google Analytics may
+          use cookies or similar storage. Microsoft Clarity provides interaction analytics and
+          session replay, which can include clicks, scrolling, pointer movement, and rendered page
+          state. Plausible provides aggregate traffic analytics through the configured ShipSolo
+          endpoint.
         </p>
         <p>
           Cloudflare may also load its Web Analytics performance beacon to measure aggregate loading
           and Core Web Vital metrics. It is used for site performance monitoring, not advertising or
           cross-site visitor tracking.
+        </p>
+        <p>
+          The preference is stored in your browser as <code>mc_analytics_consent</code>. Until you
+          allow analytics, the Google Analytics, Microsoft Clarity, and Plausible scripts do not load.
+          A browser Do Not Track or Global Privacy Control signal defaults the optional tools to off
+          unless you later choose otherwise through Analytics settings.
         </p>
       </section>
 
@@ -76,6 +86,11 @@ export default function PrivacyPage() {
           record. Hosting, database, network, and email providers may process limited data on our
           behalf under their own security and retention practices.
         </p>
+        <p>
+          Google, Microsoft, Plausible, and the configured Plausible hosting provider apply their own
+          retention, security, and international data-transfer practices to analytics data they
+          receive. Their policies and your analytics preference govern that processing.
+        </p>
       </section>
 
       <section>
@@ -92,6 +107,12 @@ export default function PrivacyPage() {
           Depending on where you live, you may have rights to request access, correction, or deletion
           of personal information we hold about you. We may need to verify a request before acting on
           it. You may also ask us to stop non-essential email correspondence.
+        </p>
+        <p>
+          Use the Analytics settings control in the site footer to allow or disable Google Analytics,
+          Microsoft Clarity, and Plausible. Disabling analytics reloads the page so previously loaded
+          optional scripts stop running for subsequent browsing. You can also clear site storage or
+          use browser privacy controls.
         </p>
       </section>
 

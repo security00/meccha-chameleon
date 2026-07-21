@@ -15,6 +15,7 @@ import {
   WrenchIcon,
   XIcon,
 } from "@phosphor-icons/react";
+import AnalyticsSettingsButton from "@/components/analytics-settings-button";
 import { OFFICIAL_STORE_URL } from "@/content/field-guide";
 
 type ActiveSection = "start" | "guides" | "maps" | "updates" | "troubleshoot";
@@ -175,6 +176,7 @@ export default function SiteShell({ active = "start", children }: SiteShellProps
             <nav className="footer-legal" aria-label="Legal and contact links">
               <Link href="/terms/">Terms of Service</Link>
               <Link href="/privacy/">Privacy Policy</Link>
+              <AnalyticsSettingsButton />
               <a href="mailto:support@meccha-chameleon.co">Contact</a>
             </nav>
             <span>Steam App 4704690</span>

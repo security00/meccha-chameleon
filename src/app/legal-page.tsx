@@ -1,14 +1,24 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { CrosshairIcon } from "@phosphor-icons/react/dist/ssr";
+import AnalyticsSettingsButton from "@/components/analytics-settings-button";
 
 type LegalPageProps = {
   title: string;
   intro: string;
+  updatedOn?: {
+    dateTime: string;
+    label: string;
+  };
   children: ReactNode;
 };
 
-export default function LegalPage({ title, intro, children }: LegalPageProps) {
+export default function LegalPage({ title, intro, updatedOn, children }: LegalPageProps) {
+  const policyDate = updatedOn ?? {
+    dateTime: "2026-07-18",
+    label: "July 18, 2026",
+  };
+
   return (
     <div className="legal-shell">
       <a className="skip-link" href="#legal-content">
@@ -35,7 +45,7 @@ export default function LegalPage({ title, intro, children }: LegalPageProps) {
           <p>Site policy / Field file</p>
           <h1>{title}</h1>
           <p>{intro}</p>
-          <time dateTime="2026-07-18">Last updated: July 18, 2026</time>
+          <time dateTime={policyDate.dateTime}>Last updated: {policyDate.label}</time>
         </div>
 
         <article className="legal-content">{children}</article>
@@ -45,6 +55,7 @@ export default function LegalPage({ title, intro, children }: LegalPageProps) {
         <span>Unofficial community resource</span>
         <div>
           <Link href="/">Back to field guide</Link>
+          <AnalyticsSettingsButton />
           <a href="mailto:support@meccha-chameleon.co">support@meccha-chameleon.co</a>
         </div>
       </footer>
